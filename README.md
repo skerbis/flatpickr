@@ -30,7 +30,7 @@ Feature overview:
 - Easily disable specific dates, date ranges, or any date using arbitrary logic
 - Week numbers
 - 51 locales
-- 8 colorful themes (incl. dark and material)
+- 9 colorful themes (incl. dark, material, and UIKit)
 - Numerous plugins
 - Libraries available for React, Angular, Vue, Ember, and more
 
@@ -44,6 +44,10 @@ IE9 and up, Edge, iOS Safari 6+, Chrome 8+, Firefox 6+
 ## Install & Use
 
 Demos and documentation: https://flatpickr.js.org
+
+## Building & Development
+
+For information about building flatpickr from source and contributing, see [BUILD.md](BUILD.md).
 
 See also:
 * [angular2+-flatpickr addon](https://github.com/mezoistvan/ng2-flatpickr)
