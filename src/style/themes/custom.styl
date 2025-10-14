@@ -41,9 +41,18 @@ $noCalendarBorder = true
 	background var(--fp-month-bg, #f9fafb)
 	border-radius var(--fp-border-radius, 8px) var(--fp-border-radius, 8px) 0 0
 	
+	.flatpickr-month
+		background var(--fp-month-bg, #f9fafb)
+		color var(--fp-month-fg, #1f2937)
+		fill var(--fp-month-fg, #1f2937)
+	
 	.flatpickr-prev-month,
 	.flatpickr-next-month
 		fill var(--fp-month-fg, #1f2937)
+		
+		svg
+			fill var(--fp-month-fg, #1f2937)
+		
 		&:hover
 			svg
 				fill var(--fp-arrow-hover-color, #2563eb)
@@ -157,10 +166,19 @@ span.flatpickr-weekday
 	
 	.flatpickr-months
 		background var(--fp-month-bg, #111827)
+		
+		.flatpickr-month
+			background var(--fp-month-bg, #111827)
+			color var(--fp-month-fg, #f9fafb)
+			fill var(--fp-month-fg, #f9fafb)
 	
 	.flatpickr-months .flatpickr-prev-month,
 	.flatpickr-months .flatpickr-next-month
 		fill var(--fp-month-fg, #f9fafb)
+		
+		svg
+			fill var(--fp-month-fg, #f9fafb)
+		
 		&:hover svg
 			fill var(--fp-arrow-hover-color, #60a5fa)
 	
