@@ -1950,6 +1950,48 @@ describe("flatpickr", () => {
       expect(fp.currentMonth).toBe(9); // October again
     });
 
+    it("calendar navigation skips month dropdown when monthSelectorType is static", () => {
+      createInstance({
+        defaultDate: new Date(2025, 9, 14), // October 14, 2025
+        monthSelectorType: "static",
+      });
+      fp.open();
+
+      // Tab from input should focus on prevMonthNav
+      simulate(
+        "keydown",
+        fp._input,
+        {
+          keyCode: 9, // Tab
+        },
+        KeyboardEvent
+      );
+      expect(document.activeElement).toStrictEqual(fp.prevMonthNav);
+
+      // Tab from prevMonthNav should skip month dropdown and go to yearElement
+      simulate(
+        "keydown",
+        fp.prevMonthNav,
+        {
+          keyCode: 9, // Tab
+        },
+        KeyboardEvent
+      );
+      expect(document.activeElement).toStrictEqual(fp.currentYearElement);
+
+      // Tab from yearElement should focus on nextMonthNav
+      simulate(
+        "keydown",
+        fp.currentYearElement,
+        {
+          keyCode: 9, // Tab
+        },
+        KeyboardEvent
+      );
+      expect(document.activeElement).toStrictEqual(fp.nextMonthNav);
+    });
+
+
 
     it("dropdown should correctly load months with minDate", () => {
       const fp = createInstance({
