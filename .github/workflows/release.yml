@@ -1,0 +1,117 @@
+name: Manual Release
+
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'New version number (e.g., 4.6.14)'
+        required: true
+        type: string
+
+jobs:
+  release:
+    name: 'Create Release'
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+      
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '16'
+          
+      - name: Validate version format
+        run: |
+          if [[ ! "${{ inputs.version }}" =~ ^[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
+            echo "Error: Version must be in format X.Y.Z (e.g., 4.6.14)"
+            exit 1
+          fi
+          
+      - name: Update version in package.json
+        run: |
+          npm version ${{ inputs.version }} --no-git-tag-version
+          echo "Updated version to ${{ inputs.version }}"
+          
+      - name: Install dependencies
+        run: npm install
+        
+      - name: Run tests
+        run: npm test
+        
+      - name: Build project
+        run: npm run build
+        
+      - name: Create demo package
+        run: |
+          mkdir -p release-demo
+          cp index.template.html release-demo/index.html
+          cp -r dist release-demo/
+          cd release-demo
+          zip -r ../flatpickr-${{ inputs.version }}-demo.zip .
+          cd ..
+          
+      - name: Create distribution package
+        run: |
+          mkdir -p flatpickr-${{ inputs.version }}
+          cp -r dist flatpickr-${{ inputs.version }}/
+          cp package.json flatpickr-${{ inputs.version }}/
+          cp README.md flatpickr-${{ inputs.version }}/
+          cp LICENSE.md flatpickr-${{ inputs.version }}/
+          tar -czf flatpickr-${{ inputs.version }}.tar.gz flatpickr-${{ inputs.version }}
+          zip -r flatpickr-${{ inputs.version }}.zip flatpickr-${{ inputs.version }}
+          
+      - name: Commit version update
+        run: |
+          git config --local user.email "github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "github-actions[bot]"
+          git add package.json package-lock.json
+          git commit -m "Bump version to ${{ inputs.version }}"
+          git tag -a "v${{ inputs.version }}" -m "Release v${{ inputs.version }}"
+          
+      - name: Push changes
+        uses: ad-m/github-push-action@master
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          branch: ${{ github.ref }}
+          tags: true
+          
+      - name: Generate changelog
+        id: changelog
+        run: |
+          # Get the latest tag before this one
+          PREVIOUS_TAG=$(git describe --abbrev=0 --tags $(git rev-list --tags --skip=1 --max-count=1) 2>/dev/null || echo "")
+          
+          if [ -z "$PREVIOUS_TAG" ]; then
+            CHANGELOG="First release"
+          else
+            CHANGELOG=$(git log ${PREVIOUS_TAG}..HEAD --pretty=format:"- %s (%h)" --no-merges)
+          fi
+          
+          # Save changelog to file for the release
+          echo "$CHANGELOG" > CHANGELOG.txt
+          
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v1
+        with:
+          tag_name: v${{ inputs.version }}
+          name: Release v${{ inputs.version }}
+          body_path: CHANGELOG.txt
+          files: |
+            flatpickr-${{ inputs.version }}.tar.gz
+            flatpickr-${{ inputs.version }}.zip
+            flatpickr-${{ inputs.version }}-demo.zip
+          draft: false
+          prerelease: false
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          
+      - name: Upload demo as artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: flatpickr-demo-${{ inputs.version }}
+          path: release-demo/
+          retention-days: 90

@@ -130,7 +130,11 @@ Demos and documentation: https://flatpickr.js.org
 
 For information about building flatpickr from source and contributing, see [BUILD.md](BUILD.md).
 
-See also:
+## Releases
+
+To create a new release, see [.github/RELEASE.md](.github/RELEASE.md) for instructions on using the automated release workflow.
+
+## See also:
 * [angular2+-flatpickr addon](https://github.com/mezoistvan/ng2-flatpickr)
 * [angularJS-flatpickr addon](https://www.npmjs.com/package/angular-flatpickr)
 * [ember-flatpickr addon](https://www.npmjs.com/package/ember-flatpickr)
