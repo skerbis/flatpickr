@@ -160,100 +160,100 @@ span.flatpickr-weekday
 // Dark mode support via prefers-color-scheme
 @media (prefers-color-scheme: dark)
 	.flatpickr-calendar
-		background var(--fp-bg, #1f2937)
-		border-color var(--fp-border-color, #374151)
-		box-shadow var(--fp-shadow, 0 4px 6px rgba(0, 0, 0, 0.3), 0 1px 3px rgba(0, 0, 0, 0.2))
+		background #1f2937
+		border-color #374151
+		box-shadow 0 4px 6px rgba(0, 0, 0, 0.3), 0 1px 3px rgba(0, 0, 0, 0.2)
 	
 	.flatpickr-months
-		background var(--fp-month-bg, #111827)
+		background #111827
 		
 		.flatpickr-month
-			background var(--fp-month-bg, #111827)
-			color var(--fp-month-fg, #f9fafb)
-			fill var(--fp-month-fg, #f9fafb)
+			background #111827
+			color #f9fafb
+			fill #f9fafb
 	
 	.flatpickr-months .flatpickr-prev-month,
 	.flatpickr-months .flatpickr-next-month
-		fill var(--fp-month-fg, #f9fafb)
+		fill #f9fafb
 		
 		svg
-			fill var(--fp-month-fg, #f9fafb)
+			fill #f9fafb
 		
 		&:hover svg
-			fill var(--fp-arrow-hover-color, #60a5fa)
+			fill #60a5fa
 	
 	.flatpickr-current-month .flatpickr-monthDropdown-months,
 	.flatpickr-current-month .numInputWrapper input.cur-year
-		background var(--fp-month-bg, #111827)
-		color var(--fp-month-fg, #f9fafb)
+		background #111827
+		color #f9fafb
 	
 	.flatpickr-current-month .numInputWrapper .arrowUp:after,
 	.flatpickr-current-month .numInputWrapper .arrowDown:after
-		border-bottom-color var(--fp-month-fg, #f9fafb)
+		border-bottom-color #f9fafb
 	.flatpickr-current-month .numInputWrapper .arrowDown:after
-		border-top-color var(--fp-month-fg, #f9fafb)
+		border-top-color #f9fafb
 	
 	span.flatpickr-weekday
-		background var(--fp-weekdays-bg, #111827)
-		color var(--fp-weekdays-fg, #9ca3af)
+		background #111827
+		color #9ca3af
 	
 	.flatpickr-innerContainer
 		background #1f2937
 	
 	.flatpickr-day
-		color var(--fp-day-fg, #f9fafb)
+		color #f9fafb
 		
 		&.today
-			border-color var(--fp-today-color, #60a5fa)
-			color var(--fp-today-fg, #f9fafb)
-			background var(--fp-today-bg, rgba(96, 165, 250, 0.15))
+			border-color #60a5fa
+			color #f9fafb
+			background rgba(96, 165, 250, 0.15)
 			&:hover,
 			&:focus
-				border-color var(--fp-today-color, #60a5fa)
-				background var(--fp-today-hover-bg, rgba(96, 165, 250, 0.25))
-				box-shadow var(--fp-today-hover-shadow, 0 2px 4px rgba(96, 165, 250, 0.4))
+				border-color #60a5fa
+				background rgba(96, 165, 250, 0.25)
+				box-shadow 0 2px 4px rgba(96, 165, 250, 0.4)
 		
 		&.selected,
 		&.startRange,
 		&.endRange
-			background var(--fp-selected-bg, #3b82f6)
-			border-color var(--fp-selected-bg, #3b82f6)
+			background #3b82f6
+			border-color #3b82f6
 			&:hover,
 			&:focus
-				background var(--fp-selected-hover-bg, #2563eb)
-				border-color var(--fp-selected-hover-bg, #2563eb)
+				background #2563eb
+				border-color #2563eb
 		
 		&.inRange
-			background var(--fp-range-bg, rgba(96, 165, 250, 0.2))
-			border-color var(--fp-range-bg, rgba(96, 165, 250, 0.2))
-			box-shadow -5px 0 0 var(--fp-range-bg, rgba(96, 165, 250, 0.2)), 5px 0 0 var(--fp-range-bg, rgba(96, 165, 250, 0.2))
+			background rgba(96, 165, 250, 0.2)
+			border-color rgba(96, 165, 250, 0.2)
+			box-shadow -5px 0 0 rgba(96, 165, 250, 0.2), 5px 0 0 rgba(96, 165, 250, 0.2)
 		
 		&.disabled,
 		&.prevMonthDay,
 		&.nextMonthDay
-			color var(--fp-disabled-color, #6b7280)
+			color #6b7280
 		
 		&:hover:not(.disabled):not(.selected)
-			background var(--fp-day-hover-bg, #374151)
-			border-color var(--fp-day-hover-bg, #374151)
-			box-shadow var(--fp-day-hover-shadow, 0 1px 3px rgba(0, 0, 0, 0.3))
+			background #374151
+			border-color #374151
+			box-shadow 0 1px 3px rgba(0, 0, 0, 0.3)
 	
 	.flatpickr-time
-		border-top-color var(--fp-time-border-color, #374151)
-		background var(--fp-time-bg, #111827)
+		border-top-color #374151
+		background #111827
 		
 		input
-			background var(--fp-time-input-bg, #1f2937)
-			border-color var(--fp-time-input-border, #374151)
-			color var(--fp-time-input-color, #f9fafb)
+			background #1f2937
+			border-color #374151
+			color #f9fafb
 			&:hover,
 			&:focus
-				border-color var(--fp-time-input-hover-border, #3b82f6)
-				background var(--fp-time-input-hover-bg, #1f2937)
+				border-color #3b82f6
+				background #1f2937
 	
 	.flatpickr-time-separator,
 	.flatpickr-am-pm
-		color var(--fp-time-color, #f9fafb)
+		color #f9fafb
 
 // High contrast mode support
 @media (prefers-contrast: high)
