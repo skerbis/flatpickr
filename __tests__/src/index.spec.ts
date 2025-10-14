@@ -1783,6 +1783,174 @@ describe("flatpickr", () => {
       expect(document.activeElement).toStrictEqual(fp._input);
     });
 
+    it("calendar navigation with Tab key", () => {
+      createInstance({
+        defaultDate: new Date(2025, 9, 14), // October 14, 2025
+      });
+      fp.open();
+
+      // Tab from input should focus on prevMonthNav
+      simulate(
+        "keydown",
+        fp._input,
+        {
+          keyCode: 9, // Tab
+        },
+        KeyboardEvent
+      );
+      expect(document.activeElement).toStrictEqual(fp.prevMonthNav);
+
+      // Tab from prevMonthNav should focus on monthsDropdownContainer
+      simulate(
+        "keydown",
+        fp.prevMonthNav,
+        {
+          keyCode: 9, // Tab
+        },
+        KeyboardEvent
+      );
+      expect(document.activeElement).toStrictEqual(fp.monthsDropdownContainer);
+
+      // Tab from monthsDropdownContainer should focus on yearElement
+      simulate(
+        "keydown",
+        fp.monthsDropdownContainer,
+        {
+          keyCode: 9, // Tab
+        },
+        KeyboardEvent
+      );
+      expect(document.activeElement).toStrictEqual(fp.currentYearElement);
+
+      // Tab from yearElement should focus on nextMonthNav
+      simulate(
+        "keydown",
+        fp.currentYearElement,
+        {
+          keyCode: 9, // Tab
+        },
+        KeyboardEvent
+      );
+      expect(document.activeElement).toStrictEqual(fp.nextMonthNav);
+
+      // Tab from nextMonthNav should focus on a day in the calendar
+      simulate(
+        "keydown",
+        fp.nextMonthNav,
+        {
+          keyCode: 9, // Tab
+        },
+        KeyboardEvent
+      );
+      expect(fp.daysContainer?.contains(document.activeElement as Node)).toBe(true);
+
+      // Tab from day should return to input
+      simulate(
+        "keydown",
+        document.activeElement as Element,
+        {
+          keyCode: 9, // Tab
+        },
+        KeyboardEvent
+      );
+      expect(document.activeElement).toStrictEqual(fp._input);
+    });
+
+    it("calendar navigation with Shift+Tab key", () => {
+      createInstance({
+        defaultDate: new Date(2025, 9, 14), // October 14, 2025
+      });
+      fp.open();
+
+      // Focus on nextMonthNav first
+      fp.nextMonthNav.focus();
+      expect(document.activeElement).toStrictEqual(fp.nextMonthNav);
+
+      // Shift+Tab from nextMonthNav should focus on yearElement
+      simulate(
+        "keydown",
+        fp.nextMonthNav,
+        {
+          keyCode: 9, // Tab
+          shiftKey: true,
+        },
+        KeyboardEvent
+      );
+      expect(document.activeElement).toStrictEqual(fp.currentYearElement);
+
+      // Shift+Tab from yearElement should focus on monthsDropdownContainer
+      simulate(
+        "keydown",
+        fp.currentYearElement,
+        {
+          keyCode: 9, // Tab
+          shiftKey: true,
+        },
+        KeyboardEvent
+      );
+      expect(document.activeElement).toStrictEqual(fp.monthsDropdownContainer);
+
+      // Shift+Tab from monthsDropdownContainer should focus on prevMonthNav
+      simulate(
+        "keydown",
+        fp.monthsDropdownContainer,
+        {
+          keyCode: 9, // Tab
+          shiftKey: true,
+        },
+        KeyboardEvent
+      );
+      expect(document.activeElement).toStrictEqual(fp.prevMonthNav);
+
+      // Shift+Tab from prevMonthNav should return to input
+      simulate(
+        "keydown",
+        fp.prevMonthNav,
+        {
+          keyCode: 9, // Tab
+          shiftKey: true,
+        },
+        KeyboardEvent
+      );
+      expect(document.activeElement).toStrictEqual(fp._input);
+    });
+
+    it("navigation buttons respond to Enter key", () => {
+      createInstance({
+        defaultDate: new Date(2025, 9, 14), // October 14, 2025
+      });
+      fp.open();
+
+      fp.prevMonthNav.focus();
+      expect(fp.currentMonth).toBe(9); // October (0-indexed)
+
+      // Press Enter on prevMonthNav
+      simulate(
+        "keydown",
+        fp.prevMonthNav,
+        {
+          keyCode: 13, // Enter
+        },
+        KeyboardEvent
+      );
+      expect(fp.currentMonth).toBe(8); // September
+
+      // Move to nextMonthNav
+      fp.nextMonthNav.focus();
+
+      // Press Space on nextMonthNav
+      simulate(
+        "keydown",
+        fp.nextMonthNav,
+        {
+          keyCode: 32, // Space
+        },
+        KeyboardEvent
+      );
+      expect(fp.currentMonth).toBe(9); // October again
+    });
+
+
     it("dropdown should correctly load months with minDate", () => {
       const fp = createInstance({
         defaultDate: new Date(2019, 5, 11),
