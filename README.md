@@ -1,5 +1,8 @@
-## flatpickr - javascript datetime picker
-[![Actions Status](https://github.com/flatpickr/flatpickr/workflows/GitHub%20Actions/badge.svg)](https://github.com/flatpickr/flatpickr/actions)
+## flatpickr a11y FORK  - javascript datetime picker
+
+This wants to be an a11y optimized fork of flatpickr. 
+
+[![Actions Status](https://github.com/skerbis/flatpickr/workflows/GitHub%20Actions/badge.svg)](https://github.com/flatpickr/flatpickr/actions)
 
 [![Coverage](https://coveralls.io/repos/github/chmln/flatpickr/badge.svg?branch=master)](https://coveralls.io/github/chmln/flatpickr)
 [![npm version](https://badge.fury.io/js/flatpickr.svg)](https://www.npmjs.com/package/flatpickr)
@@ -149,6 +152,6 @@ To create a new release, see [.github/RELEASE.md](.github/RELEASE.md) for instru
 
 flatpickr will never change its license, pester users for donations, or engage in other user-hostile behavior.
 
-Nevertheless, if you enjoyed working with this library or if its made your life easier, you can buy me a cup of coffee :)
+Nevertheless, if you enjoyed working with this library or if its made your life easier, you can buy him a cup of coffee :)
 
-<a href='https://ko-fi.com/A3381DJ9' target='_blank'><img height='36' style='border:0px;height:36px;' src='https://az743702.vo.msecnd.net/cdn/kofi4.png?v=0' border='0' alt='Buy Me a Coffee at ko-fi.com' /></a>
+<a href='https://ko-fi.com/A3381DJ9' target='_blank'><img height='36' style='border:0px;height:36px;' src='https://az743702.vo.msecnd.net/cdn/kofi4.png?v=0' border='0' alt='Buy gim a Coffee at ko-fi.com' /></a>
