@@ -4,39 +4,508 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <title>flatpickr quick start</title>
+  <title>flatpickr - Feature Demo</title>
 
-  <link rel="stylesheet" href="dist/flatpickr.css">
+  <link rel="stylesheet" href="dist/flatpickr.css" id="main-theme">
   <link rel="stylesheet" href="dist/ie.css">
   <link rel="stylesheet" href="dist/plugins/confirmDate/confirmDate.css">
   <link rel="stylesheet" href="dist/plugins/monthSelect/style.css">
   
   <style type="text/css">
+    * {
+      box-sizing: border-box;
+    }
+
     body {
       font-family: -apple-system, BlinkMacSystemFont, "Segoe UI",
         "Roboto", "Oxygen", "Ubuntu", "Helvetica Neue", Arial, sans-serif;
+      margin: 0;
+      padding: 20px;
+      background: #f5f5f5;
     }
 
-    label > div {
-      margin-bottom: 4px;
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    h1 {
+      color: #333;
+      margin-bottom: 10px;
+    }
+
+    .subtitle {
+      color: #666;
+      margin-bottom: 30px;
+    }
+
+    .theme-switcher {
+      background: white;
+      padding: 20px;
+      border-radius: 8px;
+      margin-bottom: 30px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+
+    .theme-switcher h2 {
+      margin-top: 0;
+      margin-bottom: 15px;
+      color: #333;
+      font-size: 18px;
+    }
+
+    .theme-buttons {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .theme-btn {
+      padding: 8px 16px;
+      border: 2px solid #ddd;
+      background: white;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: all 0.2s;
+      font-size: 14px;
+    }
+
+    .theme-btn:hover {
+      border-color: #569ff7;
+      background: #f0f7ff;
+    }
+
+    .theme-btn.active {
+      background: #569ff7;
+      color: white;
+      border-color: #569ff7;
+    }
+
+    .demo-section {
+      background: white;
+      padding: 25px;
+      border-radius: 8px;
+      margin-bottom: 20px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+
+    .demo-section h2 {
+      margin-top: 0;
+      margin-bottom: 20px;
+      color: #333;
+      font-size: 20px;
+      border-bottom: 2px solid #569ff7;
+      padding-bottom: 10px;
+    }
+
+    .demo-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 20px;
+      margin-bottom: 20px;
+    }
+
+    .demo-item {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .demo-item label {
+      display: block;
+      margin-bottom: 8px;
+      font-weight: 500;
+      color: #555;
+    }
+
+    .demo-item input {
+      padding: 10px;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      font-size: 14px;
+    }
+
+    .demo-item input:focus {
+      outline: none;
+      border-color: #569ff7;
+    }
+
+    .code-example {
+      background: #f8f9fa;
+      border: 1px solid #e1e4e8;
+      border-radius: 6px;
+      padding: 16px;
+      margin-top: 15px;
+      overflow-x: auto;
+    }
+
+    .code-example pre {
+      margin: 0;
+      font-family: 'Courier New', Courier, monospace;
+      font-size: 13px;
+      line-height: 1.5;
+    }
+
+    .code-example code {
+      color: #24292e;
+    }
+
+    .feature-description {
+      color: #666;
+      margin-bottom: 15px;
+      font-size: 14px;
+      line-height: 1.6;
+    }
+
+    .badge {
+      display: inline-block;
+      padding: 2px 8px;
+      background: #569ff7;
+      color: white;
+      border-radius: 3px;
+      font-size: 11px;
+      font-weight: 600;
+      text-transform: uppercase;
+      margin-left: 8px;
     }
   </style>
 </head>
 <body>
-  <div style="padding:15vw">
-    <div>
-      <label>
-        <div>Date 1</div>
-        <input placeholder="Select Date..." class=date />
-      </label>
+  <div class="container">
+    <h1>flatpickr Feature Demo</h1>
+    <p class="subtitle">Comprehensive demonstration of all flatpickr features and plugins</p>
 
-      <!--
-      <label>
-        <div>Date 2</div>
-        <input placeholder="Select Date..." class=date id=input2 />
-      </label>
-      -->
+    <!-- Theme Switcher -->
+    <div class="theme-switcher">
+      <h2>🎨 Theme Switcher</h2>
+      <div class="theme-buttons">
+        <button class="theme-btn active" data-theme="default">Default</button>
+        <button class="theme-btn" data-theme="dark">Dark</button>
+        <button class="theme-btn" data-theme="light">Light</button>
+        <button class="theme-btn" data-theme="material_blue">Material Blue</button>
+        <button class="theme-btn" data-theme="material_green">Material Green</button>
+        <button class="theme-btn" data-theme="material_orange">Material Orange</button>
+        <button class="theme-btn" data-theme="material_red">Material Red</button>
+        <button class="theme-btn" data-theme="confetti">Confetti</button>
+        <button class="theme-btn" data-theme="airbnb">Airbnb</button>
+        <button class="theme-btn" data-theme="glassmorphism">Glassmorphism</button>
+        <button class="theme-btn" data-theme="uikit">UIKit</button>
+      </div>
     </div>
+
+    <!-- Basic Date Picker -->
+    <div class="demo-section">
+      <h2>📅 Basic Date Picker</h2>
+      <p class="feature-description">Simple date selection with default configuration</p>
+      <div class="demo-grid">
+        <div class="demo-item">
+          <label>Select a Date</label>
+          <input type="text" id="basic-date" placeholder="Choose date...">
+        </div>
+      </div>
+      <div class="code-example">
+        <pre><code>flatpickr("#basic-date", {
+  dateFormat: "Y-m-d"
+});</code></pre>
+      </div>
+    </div>
+
+    <!-- Time Picker -->
+    <div class="demo-section">
+      <h2>⏰ Time Picker</h2>
+      <p class="feature-description">Time selection with various configurations</p>
+      <div class="demo-grid">
+        <div class="demo-item">
+          <label>Time Only (24h format)</label>
+          <input type="text" id="time-24h" placeholder="Select time...">
+        </div>
+        <div class="demo-item">
+          <label>Time Only (12h format with AM/PM)</label>
+          <input type="text" id="time-12h" placeholder="Select time...">
+        </div>
+        <div class="demo-item">
+          <label>Time with Seconds</label>
+          <input type="text" id="time-seconds" placeholder="Select time...">
+        </div>
+      </div>
+      <div class="code-example">
+        <pre><code>// 24 hour format
+flatpickr("#time-24h", {
+  enableTime: true,
+  noCalendar: true,
+  dateFormat: "H:i",
+  time_24hr: true
+});
+
+// 12 hour format with AM/PM
+flatpickr("#time-12h", {
+  enableTime: true,
+  noCalendar: true,
+  dateFormat: "h:i K"
+});
+
+// With seconds
+flatpickr("#time-seconds", {
+  enableTime: true,
+  noCalendar: true,
+  dateFormat: "H:i:S",
+  enableSeconds: true
+});</code></pre>
+      </div>
+    </div>
+
+    <!-- DateTime Picker -->
+    <div class="demo-section">
+      <h2>🗓️ DateTime Picker</h2>
+      <p class="feature-description">Combined date and time selection</p>
+      <div class="demo-grid">
+        <div class="demo-item">
+          <label>Date & Time (24h)</label>
+          <input type="text" id="datetime-24h" placeholder="Choose date and time...">
+        </div>
+        <div class="demo-item">
+          <label>Date & Time (12h)</label>
+          <input type="text" id="datetime-12h" placeholder="Choose date and time...">
+        </div>
+      </div>
+      <div class="code-example">
+        <pre><code>// DateTime 24h
+flatpickr("#datetime-24h", {
+  enableTime: true,
+  dateFormat: "Y-m-d H:i",
+  time_24hr: true
+});
+
+// DateTime 12h
+flatpickr("#datetime-12h", {
+  enableTime: true,
+  dateFormat: "Y-m-d h:i K"
+});</code></pre>
+      </div>
+    </div>
+
+    <!-- Range Picker -->
+    <div class="demo-section">
+      <h2>📊 Range Picker <span class="badge">Plugin</span></h2>
+      <p class="feature-description">Select date ranges with the rangePlugin</p>
+      <div class="demo-grid">
+        <div class="demo-item">
+          <label>Date Range</label>
+          <input type="text" id="range-date" placeholder="Select date range...">
+        </div>
+        <div class="demo-item">
+          <label>Date Range (alternative mode)</label>
+          <input type="text" id="range-mode" placeholder="Select start and end...">
+        </div>
+      </div>
+      <div class="code-example">
+        <pre><code>// Range with plugin
+flatpickr("#range-date", {
+  mode: "range",
+  dateFormat: "Y-m-d"
+});
+
+// Range mode (built-in)
+flatpickr("#range-mode", {
+  mode: "range",
+  dateFormat: "Y-m-d"
+});</code></pre>
+      </div>
+    </div>
+
+    <!-- Range with Time -->
+    <div class="demo-section">
+      <h2>⏱️ Range with Time</h2>
+      <p class="feature-description">Date range selection with time support</p>
+      <div class="demo-grid">
+        <div class="demo-item">
+          <label>DateTime Range</label>
+          <input type="text" id="range-datetime" placeholder="Select range with time...">
+        </div>
+      </div>
+      <div class="code-example">
+        <pre><code>flatpickr("#range-datetime", {
+  mode: "range",
+  enableTime: true,
+  dateFormat: "Y-m-d H:i",
+  time_24hr: true
+});</code></pre>
+      </div>
+    </div>
+
+    <!-- Multiple Dates -->
+    <div class="demo-section">
+      <h2>📝 Multiple Date Selection</h2>
+      <p class="feature-description">Select multiple individual dates</p>
+      <div class="demo-grid">
+        <div class="demo-item">
+          <label>Multiple Dates</label>
+          <input type="text" id="multiple-dates" placeholder="Select multiple dates...">
+        </div>
+      </div>
+      <div class="code-example">
+        <pre><code>flatpickr("#multiple-dates", {
+  mode: "multiple",
+  dateFormat: "Y-m-d",
+  conjunction: ", "
+});</code></pre>
+      </div>
+    </div>
+
+    <!-- Confirm Date Plugin -->
+    <div class="demo-section">
+      <h2>✅ Confirm Date Plugin <span class="badge">Plugin</span></h2>
+      <p class="feature-description">Add a confirmation button to the calendar</p>
+      <div class="demo-grid">
+        <div class="demo-item">
+          <label>Date with Confirm Button</label>
+          <input type="text" id="confirm-date" placeholder="Select and confirm...">
+        </div>
+        <div class="demo-item">
+          <label>DateTime with Confirm</label>
+          <input type="text" id="confirm-datetime" placeholder="Select and confirm...">
+        </div>
+      </div>
+      <div class="code-example">
+        <pre><code>flatpickr("#confirm-date", {
+  plugins: [new confirmDatePlugin({
+    confirmText: "OK",
+    showAlways: false,
+    theme: "light"
+  })]
+});
+
+flatpickr("#confirm-datetime", {
+  enableTime: true,
+  plugins: [new confirmDatePlugin({
+    confirmText: "Confirm",
+    showAlways: true
+  })]
+});</code></pre>
+      </div>
+    </div>
+
+    <!-- Month Select Plugin -->
+    <div class="demo-section">
+      <h2>📆 Month Select Plugin <span class="badge">Plugin</span></h2>
+      <p class="feature-description">Select entire months instead of specific dates</p>
+      <div class="demo-grid">
+        <div class="demo-item">
+          <label>Month Selection</label>
+          <input type="text" id="month-select" placeholder="Select month...">
+        </div>
+      </div>
+      <div class="code-example">
+        <pre><code>flatpickr("#month-select", {
+  plugins: [new monthSelectPlugin({
+    shorthand: false,
+    dateFormat: "F Y",
+    altFormat: "F Y"
+  })]
+});</code></pre>
+      </div>
+    </div>
+
+    <!-- Week Select Plugin -->
+    <div class="demo-section">
+      <h2>📅 Week Select Plugin <span class="badge">Plugin</span></h2>
+      <p class="feature-description">Select entire weeks</p>
+      <div class="demo-grid">
+        <div class="demo-item">
+          <label>Week Selection</label>
+          <input type="text" id="week-select" placeholder="Select week...">
+        </div>
+      </div>
+      <div class="code-example">
+        <pre><code>flatpickr("#week-select", {
+  plugins: [new weekSelect()]
+});</code></pre>
+      </div>
+    </div>
+
+    <!-- MinMaxTime Plugin -->
+    <div class="demo-section">
+      <h2>⏲️ Min/Max Time Plugin <span class="badge">Plugin</span></h2>
+      <p class="feature-description">Restrict time selection within specific ranges</p>
+      <div class="demo-grid">
+        <div class="demo-item">
+          <label>Time Range (9 AM - 5 PM)</label>
+          <input type="text" id="minmax-time" placeholder="Select time...">
+        </div>
+      </div>
+      <div class="code-example">
+        <pre><code>flatpickr("#minmax-time", {
+  enableTime: true,
+  noCalendar: true,
+  dateFormat: "H:i",
+  time_24hr: true,
+  minTime: "09:00",
+  maxTime: "17:00"
+});</code></pre>
+      </div>
+    </div>
+
+    <!-- Scroll Plugin -->
+    <div class="demo-section">
+      <h2>🖱️ Scroll Plugin <span class="badge">Plugin</span></h2>
+      <p class="feature-description">Use mouse wheel to change date/time values</p>
+      <div class="demo-grid">
+        <div class="demo-item">
+          <label>Scrollable Time (hover and scroll)</label>
+          <input type="text" id="scroll-time" placeholder="Select time...">
+        </div>
+      </div>
+      <div class="code-example">
+        <pre><code>flatpickr("#scroll-time", {
+  enableTime: true,
+  dateFormat: "Y-m-d H:i",
+  plugins: [new scrollPlugin()]
+});</code></pre>
+      </div>
+    </div>
+
+    <!-- Advanced Options -->
+    <div class="demo-section">
+      <h2>⚙️ Advanced Options</h2>
+      <p class="feature-description">Additional configuration options</p>
+      <div class="demo-grid">
+        <div class="demo-item">
+          <label>Inline Calendar</label>
+          <input type="text" id="inline-calendar" placeholder="Inline mode...">
+        </div>
+        <div class="demo-item">
+          <label>Week Numbers</label>
+          <input type="text" id="week-numbers" placeholder="With week numbers...">
+        </div>
+        <div class="demo-item">
+          <label>Disabled Dates</label>
+          <input type="text" id="disabled-dates" placeholder="Some dates disabled...">
+        </div>
+      </div>
+      <div class="code-example">
+        <pre><code>// Inline calendar
+flatpickr("#inline-calendar", {
+  inline: true
+});
+
+// Week numbers
+flatpickr("#week-numbers", {
+  weekNumbers: true
+});
+
+// Disable specific dates
+flatpickr("#disabled-dates", {
+  disable: [
+    "2025-10-15",
+    "2025-10-20",
+    function(date) {
+      // Disable weekends
+      return (date.getDay() === 0 || date.getDay() === 6);
+    }
+  ]
+});</code></pre>
+      </div>
+    </div>
+
   </div>
   
   <!-- classList polyfill for IE9 -->
@@ -50,9 +519,159 @@
   <script src="./dist/plugins/weekSelect/weekSelect.js"></script>
 
   <script>
-    var fp = flatpickr(".date", {
+    // Theme switcher functionality
+    var themeButtons = document.querySelectorAll('.theme-btn');
+    var mainThemeLink = document.getElementById('main-theme');
+    
+    themeButtons.forEach(function(btn) {
+      btn.addEventListener('click', function() {
+        var theme = this.getAttribute('data-theme');
+        
+        // Update active button
+        themeButtons.forEach(function(b) { b.classList.remove('active'); });
+        this.classList.add('active');
+        
+        // Change theme
+        if (theme === 'default') {
+          mainThemeLink.href = 'dist/flatpickr.css';
+        } else {
+          mainThemeLink.href = 'dist/themes/' + theme + '.css';
+        }
+      });
+    });
 
-    })
+    // Initialize all flatpickr instances
+    
+    // Basic date picker
+    flatpickr("#basic-date", {
+      dateFormat: "Y-m-d"
+    });
+
+    // Time pickers
+    flatpickr("#time-24h", {
+      enableTime: true,
+      noCalendar: true,
+      dateFormat: "H:i",
+      time_24hr: true
+    });
+
+    flatpickr("#time-12h", {
+      enableTime: true,
+      noCalendar: true,
+      dateFormat: "h:i K"
+    });
+
+    flatpickr("#time-seconds", {
+      enableTime: true,
+      noCalendar: true,
+      dateFormat: "H:i:S",
+      enableSeconds: true
+    });
+
+    // DateTime pickers
+    flatpickr("#datetime-24h", {
+      enableTime: true,
+      dateFormat: "Y-m-d H:i",
+      time_24hr: true
+    });
+
+    flatpickr("#datetime-12h", {
+      enableTime: true,
+      dateFormat: "Y-m-d h:i K"
+    });
+
+    // Range pickers
+    flatpickr("#range-date", {
+      mode: "range",
+      dateFormat: "Y-m-d"
+    });
+
+    flatpickr("#range-mode", {
+      mode: "range",
+      dateFormat: "Y-m-d"
+    });
+
+    flatpickr("#range-datetime", {
+      mode: "range",
+      enableTime: true,
+      dateFormat: "Y-m-d H:i",
+      time_24hr: true
+    });
+
+    // Multiple dates
+    flatpickr("#multiple-dates", {
+      mode: "multiple",
+      dateFormat: "Y-m-d",
+      conjunction: ", "
+    });
+
+    // Confirm date plugin
+    flatpickr("#confirm-date", {
+      plugins: [new confirmDatePlugin({
+        confirmText: "OK",
+        showAlways: false,
+        theme: "light"
+      })]
+    });
+
+    flatpickr("#confirm-datetime", {
+      enableTime: true,
+      plugins: [new confirmDatePlugin({
+        confirmText: "Confirm",
+        showAlways: true
+      })]
+    });
+
+    // Month select plugin
+    flatpickr("#month-select", {
+      plugins: [new monthSelectPlugin({
+        shorthand: false,
+        dateFormat: "F Y",
+        altFormat: "F Y"
+      })]
+    });
+
+    // Week select plugin
+    flatpickr("#week-select", {
+      plugins: [new weekSelect()]
+    });
+
+    // MinMaxTime plugin
+    flatpickr("#minmax-time", {
+      enableTime: true,
+      noCalendar: true,
+      dateFormat: "H:i",
+      time_24hr: true,
+      minTime: "09:00",
+      maxTime: "17:00"
+    });
+
+    // Scroll plugin
+    flatpickr("#scroll-time", {
+      enableTime: true,
+      dateFormat: "Y-m-d H:i",
+      plugins: [new scrollPlugin()]
+    });
+
+    // Advanced options
+    flatpickr("#inline-calendar", {
+      inline: true
+    });
+
+    flatpickr("#week-numbers", {
+      weekNumbers: true
+    });
+
+    flatpickr("#disabled-dates", {
+      disable: [
+        "2025-10-15",
+        "2025-10-20",
+        function(date) {
+          // Disable weekends
+          return (date.getDay() === 0 || date.getDay() === 6);
+        }
+      ]
+    });
   </script>
 </body>
 </html>
