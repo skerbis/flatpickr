@@ -579,7 +579,10 @@ function FlatpickrInstance(
     );
     self.calendarContainer.tabIndex = -1;
     self.calendarContainer.setAttribute("role", "dialog");
-    self.calendarContainer.setAttribute("aria-label", self.l10n.datePickerAriaLabel || "Date picker");
+    self.calendarContainer.setAttribute(
+      "aria-label",
+      self.l10n.datePickerAriaLabel || "Date picker"
+    );
 
     if (!self.config.noCalendar) {
       fragment.appendChild(buildMonthNav());
@@ -1669,10 +1672,13 @@ function FlatpickrInstance(
     const allowInlineKeydown = self.config.inline && isInput && !allowInput;
 
     // Handle Enter/Space on navigation buttons
-    if ((e.keyCode === 13 || e.keyCode === 32) && self.prevMonthNav && self.nextMonthNav && (
-      self.prevMonthNav.contains(eventTarget as Node) ||
-      self.nextMonthNav.contains(eventTarget as Node)
-    )) {
+    if (
+      (e.keyCode === 13 || e.keyCode === 32) &&
+      self.prevMonthNav &&
+      self.nextMonthNav &&
+      (self.prevMonthNav.contains(eventTarget as Node) ||
+        self.nextMonthNav.contains(eventTarget as Node))
+    ) {
       e.preventDefault();
       const isPrevMonth = self.prevMonthNav.contains(eventTarget as Node);
       changeMonth(isPrevMonth ? -1 : 1);
