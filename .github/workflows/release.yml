@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
     inputs:
       version:
-        description: 'New version number (e.g., 4.6.14)'
+        description: 'New version number (e.g., 1.0.0)'
         required: true
         type: string
 
@@ -27,7 +27,7 @@ jobs:
       - name: Validate version format
         run: |
           if [[ ! "${{ inputs.version }}" =~ ^[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
-            echo "Error: Version must be in format X.Y.Z (e.g., 4.6.14)"
+            echo "Error: Version must be in format X.Y.Z (e.g., 1.0.0)"
             exit 1
           fi
           
@@ -51,18 +51,18 @@ jobs:
           cp index.template.html release-demo/index.html
           cp -r dist release-demo/
           cd release-demo
-          zip -r ../flatpickr-${{ inputs.version }}-demo.zip .
+          zip -r ../pickit-${{ inputs.version }}-demo.zip .
           cd ..
           
       - name: Create distribution package
         run: |
-          mkdir -p flatpickr-${{ inputs.version }}
-          cp -r dist flatpickr-${{ inputs.version }}/
-          cp package.json flatpickr-${{ inputs.version }}/
-          cp README.md flatpickr-${{ inputs.version }}/
-          cp LICENSE.md flatpickr-${{ inputs.version }}/
-          tar -czf flatpickr-${{ inputs.version }}.tar.gz flatpickr-${{ inputs.version }}
-          zip -r flatpickr-${{ inputs.version }}.zip flatpickr-${{ inputs.version }}
+          mkdir -p pickit-${{ inputs.version }}
+          cp -r dist pickit-${{ inputs.version }}/
+          cp package.json pickit-${{ inputs.version }}/
+          cp README.md pickit-${{ inputs.version }}/
+          cp LICENSE.md pickit-${{ inputs.version }}/
+          tar -czf pickit-${{ inputs.version }}.tar.gz pickit-${{ inputs.version }}
+          zip -r pickit-${{ inputs.version }}.zip pickit-${{ inputs.version }}/
           
       - name: Commit version update
         run: |
@@ -101,9 +101,9 @@ jobs:
           name: Release v${{ inputs.version }}
           body_path: CHANGELOG.txt
           files: |
-            flatpickr-${{ inputs.version }}.tar.gz
-            flatpickr-${{ inputs.version }}.zip
-            flatpickr-${{ inputs.version }}-demo.zip
+            pickit-${{ inputs.version }}.tar.gz
+            pickit-${{ inputs.version }}.zip
+            pickit-${{ inputs.version }}-demo.zip
           draft: false
           prerelease: false
         env:
@@ -112,6 +112,6 @@ jobs:
       - name: Upload demo as artifact
         uses: actions/upload-artifact@v4
         with:
-          name: flatpickr-demo-${{ inputs.version }}
+          name: pickit-demo-${{ inputs.version }}
           path: release-demo/
           retention-days: 90
