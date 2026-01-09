@@ -138,6 +138,19 @@ function FlatpickrInstance(
     );
   }
 
+  /**
+   * Announce message to screen readers via live region
+   */
+  function announceToScreenReader(message: string) {
+    if (self.liveRegion) {
+      self.liveRegion.textContent = message;
+      // Clear after announcement to allow repeated announcements
+      setTimeout(() => {
+        if (self.liveRegion) self.liveRegion.textContent = "";
+      }, 1000);
+    }
+  }
+
   function bindToInstance<F extends Function>(fn: F): F {
     return fn.bind(self);
   }
@@ -345,19 +358,23 @@ function FlatpickrInstance(
 
     if (!self.hourElement || !self.minuteElement || self.isMobile) return;
 
-    self.hourElement.value = pad(
-      !self.config.time_24hr
-        ? ((12 + hours) % 12) + 12 * int(hours % 12 === 0)
-        : hours
-    );
+    const displayHours = !self.config.time_24hr
+      ? ((12 + hours) % 12) + 12 * int(hours % 12 === 0)
+      : hours;
+
+    self.hourElement.value = pad(displayHours);
+    self.hourElement.setAttribute("aria-valuenow", displayHours.toString());
 
     self.minuteElement.value = pad(minutes);
+    self.minuteElement.setAttribute("aria-valuenow", minutes.toString());
 
     if (self.amPM !== undefined)
       self.amPM.textContent = self.l10n.amPM[int(hours >= 12)];
 
-    if (self.secondElement !== undefined)
+    if (self.secondElement !== undefined) {
       self.secondElement.value = pad(seconds);
+      self.secondElement.setAttribute("aria-valuenow", seconds.toString());
+    }
   }
 
   /**
@@ -583,6 +600,14 @@ function FlatpickrInstance(
       "aria-label",
       self.l10n.datePickerAriaLabel || "Date picker"
     );
+    self.calendarContainer.setAttribute("aria-expanded", "false");
+
+    // Add live region for screen reader announcements
+    self.liveRegion = createElement<HTMLDivElement>("div", "flatpickr-sr-only");
+    self.liveRegion.setAttribute("role", "status");
+    self.liveRegion.setAttribute("aria-live", "polite");
+    self.liveRegion.setAttribute("aria-atomic", "true");
+    fragment.appendChild(self.liveRegion);
 
     if (!self.config.noCalendar) {
       fragment.appendChild(buildMonthNav());
@@ -714,6 +739,7 @@ function FlatpickrInstance(
       dayElement.tabIndex = -1;
       if (isDateSelected(date)) {
         dayElement.classList.add("selected");
+        dayElement.setAttribute("aria-selected", "true");
         self.selectedDateElem = dayElement;
 
         if (self.config.mode === "range") {
@@ -733,9 +759,12 @@ function FlatpickrInstance(
 
           if (className === "nextMonthDay") dayElement.classList.add("inRange");
         }
+      } else {
+        dayElement.setAttribute("aria-selected", "false");
       }
     } else {
       dayElement.classList.add("flatpickr-disabled");
+      dayElement.setAttribute("aria-disabled", "true");
     }
 
     if (self.config.mode === "range") {
@@ -1168,6 +1197,15 @@ function FlatpickrInstance(
 
     self.hourElement.tabIndex = self.minuteElement.tabIndex = -1;
 
+    // Add spinbutton role and ARIA attributes
+    self.hourElement.setAttribute("role", "spinbutton");
+    self.minuteElement.setAttribute("role", "spinbutton");
+
+    self.hourElement.setAttribute("aria-valuemin", self.config.time_24hr ? "0" : "1");
+    self.hourElement.setAttribute("aria-valuemax", self.config.time_24hr ? "23" : "12");
+    self.minuteElement.setAttribute("aria-valuemin", "0");
+    self.minuteElement.setAttribute("aria-valuemax", "59");
+
     self.hourElement.value = pad(
       self.latestSelectedDateObj
         ? self.latestSelectedDateObj.getHours()
@@ -1279,21 +1317,26 @@ function FlatpickrInstance(
     }
 
     const firstDayOfWeek = self.l10n.firstDayOfWeek;
-    let weekdays = [...self.l10n.weekdays.shorthand];
+    let weekdaysShort = [...self.l10n.weekdays.shorthand];
+    let weekdaysLong = [...self.l10n.weekdays.longhand];
 
-    if (firstDayOfWeek > 0 && firstDayOfWeek < weekdays.length) {
-      weekdays = [
-        ...weekdays.splice(firstDayOfWeek, weekdays.length),
-        ...weekdays.splice(0, firstDayOfWeek),
+    if (firstDayOfWeek > 0 && firstDayOfWeek < weekdaysShort.length) {
+      weekdaysShort = [
+        ...weekdaysShort.splice(firstDayOfWeek, weekdaysShort.length),
+        ...weekdaysShort.splice(0, firstDayOfWeek),
+      ];
+      weekdaysLong = [
+        ...weekdaysLong.splice(firstDayOfWeek, weekdaysLong.length),
+        ...weekdaysLong.splice(0, firstDayOfWeek),
       ];
     }
 
     for (let i = self.config.showMonths; i--; ) {
-      self.weekdayContainer.children[i].innerHTML = `
-      <span class='flatpickr-weekday'>
-        ${weekdays.join("</span><span class='flatpickr-weekday'>")}
-      </span>
-      `;
+      const weekdayElements = weekdaysShort.map((day, idx) => 
+        `<abbr class='flatpickr-weekday' title='${weekdaysLong[idx]}' aria-label='${weekdaysLong[idx]}'>${day}</abbr>`
+      ).join("");
+      
+      self.weekdayContainer.children[i].innerHTML = weekdayElements;
     }
   }
 
@@ -1339,6 +1382,11 @@ function FlatpickrInstance(
 
     triggerEvent("onMonthChange");
     updateNavigationCurrentMonth();
+    
+    // Announce month change to screen readers
+    announceToScreenReader(
+      `${self.l10n.months.longhand[self.currentMonth]} ${self.currentYear}`
+    );
   }
 
   function clear(triggerChangeEvent = true, toInitial = true) {
@@ -1373,6 +1421,7 @@ function FlatpickrInstance(
     if (!self.isMobile) {
       if (self.calendarContainer !== undefined) {
         self.calendarContainer.classList.remove("open");
+        self.calendarContainer.setAttribute("aria-expanded", "false");
       }
       if (self._input !== undefined) {
         self._input.classList.remove("active");
@@ -1731,6 +1780,72 @@ function FlatpickrInstance(
           }
           break;
 
+        // Home key - jump to first day of month
+        case 36:
+          if (!isTimeObj && !isInput && self.daysContainer) {
+            e.preventDefault();
+            focusOnDay(getFirstAvailableDay(1), 0);
+          }
+          break;
+
+        // End key - jump to last day of month
+        case 35:
+          if (!isTimeObj && !isInput && self.daysContainer) {
+            e.preventDefault();
+            focusOnDay(getFirstAvailableDay(-1), 0);
+          }
+          break;
+
+        // Page Up - previous month (with Shift: previous year)
+        case 33:
+          if (!isTimeObj && !isInput && self.daysContainer) {
+            e.preventDefault();
+            if (e.shiftKey) {
+              changeYear(self.currentYear - 1);
+              announceToScreenReader(
+                `${self.l10n.months.longhand[self.currentMonth]} ${self.currentYear - 1}`
+              );
+            } else {
+              changeMonth(-1);
+              announceToScreenReader(
+                `${self.l10n.months.longhand[self.currentMonth]} ${self.currentYear}`
+              );
+            }
+            focusOnDay(getFirstAvailableDay(1), 0);
+          }
+          break;
+
+        // Page Down - next month (with Shift: next year)
+        case 34:
+          if (!isTimeObj && !isInput && self.daysContainer) {
+            e.preventDefault();
+            if (e.shiftKey) {
+              changeYear(self.currentYear + 1);
+              announceToScreenReader(
+                `${self.l10n.months.longhand[self.currentMonth]} ${self.currentYear + 1}`
+              );
+            } else {
+              changeMonth(1);
+              announceToScreenReader(
+                `${self.l10n.months.longhand[self.currentMonth]} ${self.currentYear}`
+              );
+            }
+            focusOnDay(getFirstAvailableDay(1), 0);
+          }
+          break;
+
+        // 't' key - jump to today
+        case 84:
+          if (!isTimeObj && !isInput && self.daysContainer && !e.ctrlKey && !e.metaKey) {
+            e.preventDefault();
+            self.jumpToDate(self.now);
+            focusOnDay(self.todayDateElem as DayElement, 0);
+            announceToScreenReader(
+              `${self.l10n.todayAriaLabel || "Today"}: ${self.formatDate(self.now, self.config.ariaDateFormat)}`
+            );
+          }
+          break;
+
         case 37:
         case 39:
           if (!isTimeObj && !isInput) {
@@ -2056,9 +2171,15 @@ function FlatpickrInstance(
 
     if (!wasOpen) {
       self.calendarContainer.classList.add("open");
+      self.calendarContainer.setAttribute("aria-expanded", "true");
       self._input.classList.add("active");
       triggerEvent("onOpen");
       positionCalendar(positionElement);
+      
+      // Announce calendar opened to screen readers
+      announceToScreenReader(
+        `${self.l10n.datePickerAriaLabel || "Date picker"} ${self.l10n.months.longhand[self.currentMonth]} ${self.currentYear}`
+      );
     }
 
     if (self.config.enableTime === true && self.config.noCalendar === true) {
@@ -2505,6 +2626,23 @@ function FlatpickrInstance(
     buildDays();
 
     updateValue();
+    
+    // Announce selected date to screen readers
+    if (self.config.mode === "single") {
+      announceToScreenReader(
+        `${self.formatDate(selectedDate, self.config.ariaDateFormat)} ${self.l10n.datePickerAriaLabel || "selected"}`
+      );
+    } else if (self.config.mode === "range") {
+      if (self.selectedDates.length === 1) {
+        announceToScreenReader(
+          `${self.l10n.rangeStartAriaLabel || "Range start"}: ${self.formatDate(selectedDate, self.config.ariaDateFormat)}`
+        );
+      } else if (self.selectedDates.length === 2) {
+        announceToScreenReader(
+          `${self.l10n.rangeEndAriaLabel || "Range end"}: ${self.formatDate(selectedDate, self.config.ariaDateFormat)}`
+        );
+      }
+    }
 
     // maintain focus
     if (

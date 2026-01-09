@@ -115,3 +115,45 @@
   color: #fff;
   border-color: #80cbc4;
 }
+
+/* Dark mode support via prefers-color-scheme */
+@media (prefers-color-scheme: dark) {
+  .flatpickr-monthSelect-month {
+    color: #e5e7eb;
+  }
+  
+  .flatpickr-monthSelect-month.flatpickr-disabled {
+    color: #6b7280;
+  }
+  
+  .flatpickr-monthSelect-month.today {
+    border-color: #60a5fa;
+  }
+  
+  .flatpickr-monthSelect-month.inRange,
+  .flatpickr-monthSelect-month:hover,
+  .flatpickr-monthSelect-month:focus {
+    background: #374151;
+    border-color: #374151;
+    color: #ffffff;
+  }
+  
+  .flatpickr-monthSelect-month.today:hover,
+  .flatpickr-monthSelect-month.today:focus {
+    background: #60a5fa;
+    border-color: #60a5fa;
+    color: #ffffff;
+  }
+  
+  .flatpickr-monthSelect-month.selected,
+  .flatpickr-monthSelect-month.startRange,
+  .flatpickr-monthSelect-month.endRange {
+    background-color: #3b82f6;
+    border-color: #3b82f6;
+    color: #ffffff;
+  }
+  
+  .flatpickr-monthSelect-month.inRange {
+    box-shadow: -5px 0 0 #374151, 5px 0 0 #374151;
+  }
+}

@@ -4,9 +4,9 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <title>flatpickr - Feature Demo</title>
+  <title>Pickit - Accessible Feature Demo</title>
 
-  <link rel="stylesheet" href="dist/flatpickr.css" id="main-theme">
+  <link rel="stylesheet" href="dist/pickit.css?v=1.0.0-beta1" id="main-theme">
   <link rel="stylesheet" href="dist/ie.css">
   <link rel="stylesheet" href="dist/plugins/confirmDate/confirmDate.css">
   <link rel="stylesheet" href="dist/plugins/monthSelect/style.css">
@@ -171,14 +171,15 @@
 </head>
 <body>
   <div class="container">
-    <h1>flatpickr Feature Demo</h1>
-    <p class="subtitle">Comprehensive demonstration of all flatpickr features and plugins</p>
+    <h1>🗓️ Pickit Feature Demo</h1>
+    <p class="subtitle">Accessible datetime picker - Comprehensive demonstration of all features and plugins</p>
 
     <!-- Theme Switcher -->
     <div class="theme-switcher">
       <h2>🎨 Theme Switcher</h2>
       <div class="theme-buttons">
         <button class="theme-btn active" data-theme="default">Default</button>
+        <button class="theme-btn" data-theme="modern">Modern ✨</button>
         <button class="theme-btn" data-theme="dark">Dark</button>
         <button class="theme-btn" data-theme="light">Light</button>
         <button class="theme-btn" data-theme="material_blue">Material Blue</button>
@@ -186,7 +187,6 @@
         <button class="theme-btn" data-theme="material_orange">Material Orange</button>
         <button class="theme-btn" data-theme="material_red">Material Red</button>
         <button class="theme-btn" data-theme="confetti">Confetti</button>
-        <button class="theme-btn" data-theme="airbnb">Airbnb</button>
         <button class="theme-btn" data-theme="glassmorphism">Glassmorphism</button>
         <button class="theme-btn" data-theme="uikit">UIKit</button>
         <button class="theme-btn" data-theme="custom">Custom (CSS Variables) 🎨</button>
@@ -577,7 +577,7 @@ flatpickr("#german-range", {
   
   <!-- classList polyfill for IE9 -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.2.20171210/classList.min.js"></script>
-  <script src="./dist/flatpickr.js"></script>
+  <script src="./dist/pickit.js?v=1.0.0-beta1"></script>
   <script src="./dist/plugins/rangePlugin.js"></script>
   <script src="./dist/plugins/confirmDate/confirmDate.js"></script>
   <script src="./dist/plugins/minMaxTimePlugin.js"></script>
@@ -633,6 +633,27 @@ flatpickr("#german-range", {
           --fp-time-input-border: #e91e63;
           --fp-time-input-hover-border: #c2185b;
         }
+        
+        @media (prefers-color-scheme: dark) {
+          .flatpickr-calendar {
+            --fp-bg: #1f2937;
+            --fp-border-color: #e91e63;
+            --fp-month-bg: #be185d;
+            --fp-month-fg: #ffffff;
+            --fp-weekdays-bg: #831843;
+            --fp-weekdays-fg: #fce4ec;
+            --fp-day-fg: #fce4ec;
+            --fp-day-bg: #1f2937;
+            --fp-day-hover-bg: #831843;
+            --fp-today-color: #f48fb1;
+            --fp-today-bg: rgba(244, 143, 177, 0.2);
+            --fp-selected-bg: #e91e63;
+            --fp-time-border-color: #831843;
+            --fp-time-bg: #1f2937;
+            --fp-time-input-bg: #111827;
+            --fp-time-input-border: #831843;
+          }
+        }
       `;
     }
     
@@ -662,7 +683,7 @@ flatpickr("#german-range", {
         
         // Change theme
         if (theme === 'default') {
-          mainThemeLink.href = 'dist/flatpickr.css';
+          mainThemeLink.href = 'dist/pickit.css';
         } else {
           mainThemeLink.href = 'dist/themes/' + theme + '.css';
         }

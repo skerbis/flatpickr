@@ -14,19 +14,24 @@ function weekSelectPlugin(): Plugin<PlusWeeks> {
       if (!day.classList.contains("flatpickr-day")) return;
 
       const days = fp.days.childNodes;
-      const dayIndex = day.$i;
-
-      const dayIndSeven = dayIndex / 7;
-      const weekStartDay = (days[7 * Math.floor(dayIndSeven)] as DayElement)
-        .dateObj;
-      const weekEndDay = (days[
-        7 * Math.ceil(dayIndSeven + 0.01) - 1
-      ] as DayElement).dateObj;
+      const clickedDate = day.dateObj;
+      
+      // Find the start of the week (Sunday) for the clicked date
+      const clickedDayOfWeek = clickedDate.getDay();
+      const daysToSubtract = clickedDayOfWeek;
+      const weekStartDate = new Date(clickedDate);
+      weekStartDate.setDate(clickedDate.getDate() - daysToSubtract);
+      weekStartDate.setHours(0, 0, 0, 0);
+      
+      // Find the end of the week (Saturday)
+      const weekEndDate = new Date(weekStartDate);
+      weekEndDate.setDate(weekStartDate.getDate() + 6);
+      weekEndDate.setHours(23, 59, 59, 999);
 
       for (let i = days.length; i--; ) {
         const day = days[i] as DayElement;
         const date = day.dateObj;
-        if (date > weekEndDay || date < weekStartDay)
+        if (date > weekEndDate || date < weekStartDate)
           day.classList.remove("inRange");
         else day.classList.add("inRange");
       }
@@ -39,12 +44,20 @@ function weekSelectPlugin(): Plugin<PlusWeeks> {
         selDate.getMonth() === fp.currentMonth &&
         selDate.getFullYear() === fp.currentYear
       ) {
-        fp.weekStartDay = (fp.days.childNodes[
-          7 * Math.floor((fp.selectedDateElem as DayElement).$i / 7)
-        ] as DayElement).dateObj;
-        fp.weekEndDay = (fp.days.childNodes[
-          7 * Math.ceil((fp.selectedDateElem as DayElement).$i / 7 + 0.01) - 1
-        ] as DayElement).dateObj;
+        // Find the start of the week (Sunday) for the selected date
+        const selectedDayOfWeek = selDate.getDay();
+        const daysToSubtract = selectedDayOfWeek;
+        const weekStartDate = new Date(selDate);
+        weekStartDate.setDate(selDate.getDate() - daysToSubtract);
+        weekStartDate.setHours(0, 0, 0, 0);
+        
+        // Find the end of the week (Saturday)
+        const weekEndDate = new Date(weekStartDate);
+        weekEndDate.setDate(weekStartDate.getDate() + 6);
+        weekEndDate.setHours(23, 59, 59, 999);
+        
+        fp.weekStartDay = weekStartDate;
+        fp.weekEndDay = weekEndDate;
       }
       const days = fp.days.childNodes;
       for (let i = days.length; i--; ) {

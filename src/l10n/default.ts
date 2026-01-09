@@ -73,6 +73,13 @@ export const english: Locale = {
   datePickerAriaLabel: "Date picker",
   confirmDateAriaLabel: "Confirm date selection",
   monthsAriaLabel: "Months",
+  weekdayAriaLabel: "Day of week",
+  calendarAriaLabel: "Calendar",
+  gridAriaLabel: "Calendar grid, use arrow keys to navigate",
+  rangeStartAriaLabel: "Range start",
+  rangeEndAriaLabel: "Range end",
+  todayAriaLabel: "Today",
+  closeAriaLabel: "Close date picker",
   time_24hr: false,
 };
 

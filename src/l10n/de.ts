@@ -68,6 +68,13 @@ export const German: CustomLocale = {
   datePickerAriaLabel: "Datumsauswahl",
   confirmDateAriaLabel: "Datumswahl bestätigen",
   monthsAriaLabel: "Monate",
+  weekdayAriaLabel: "Wochentag",
+  calendarAriaLabel: "Kalender",
+  gridAriaLabel: "Kalenderraster, nutzen Sie die Pfeiltasten zur Navigation",
+  rangeStartAriaLabel: "Bereichsanfang",
+  rangeEndAriaLabel: "Bereichsende",
+  todayAriaLabel: "Heute",
+  closeAriaLabel: "Datumsauswahl schließen",
   time_24hr: true,
 };
 

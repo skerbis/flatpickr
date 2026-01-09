@@ -1,7 +1,7 @@
 {
-  "name": "flatpickr",
-  "version": "42.0.0",
-  "description": "A lightweight, powerful javascript datetime picker",
+  "name": "pickit",
+  "version": "1.0.0-beta1",
+  "description": "An accessible, lightweight datetime picker - Forked from flatpickr with enhanced accessibility features",
   "scripts": {
     "build": "run-s build:pre build:build build:esm build:types build:post",
     "build:pre": "rimraf dist",
@@ -51,9 +51,9 @@
     "tslib": "^2.0.3",
     "typescript": "^4.1.3"
   },
-  "main": "dist/flatpickr.js",
+  "main": "dist/pickit.js",
   "module": "dist/esm/index.js",
-  "style": "dist/flatpickr.css",
+  "style": "dist/pickit.css",
   "types": "./dist/typings.d.ts",
   "repository": {
     "type": "git",
@@ -72,7 +72,11 @@
     "date",
     "time",
     "picker",
-    "lightweight"
+    "lightweight",
+    "accessible",
+    "a11y",
+    "wcag",
+    "flatpickr-fork"
   ],
   "browserslist": [
     "ie >= 9",

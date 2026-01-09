@@ -99,6 +99,9 @@
         border 1px solid $calendarBorderColor
 
   &.noCalendar.hasTime
+    background transparent
+    box-shadow none
+    
     .flatpickr-time
       height auto
 
@@ -254,7 +257,7 @@
     padding 0 4px 0 2px
     height 50%
     line-height 50%
-    opacity 0
+    opacity 0.6
     cursor pointer
     border 1px solid alpha($dayForeground, 0.15)
     box-sizing border-box
@@ -381,7 +384,7 @@
     height: auto
     line-height: inherit
     margin: -1px 0 0 0
-    outline: none
+    outline: 2px solid transparent
     padding: 0 0 0 0.5ch
     position: relative
     vertical-align: initial
@@ -392,7 +395,8 @@
     width: auto
 
     &:focus, &:active
-      outline: none
+      outline: 2px solid #569ff7 !important
+      outline-offset: 2px !important
 
     &:hover
       background: alpha($invertedBg, 0.05)
@@ -433,7 +437,8 @@
 
 
 
-span.flatpickr-weekday
+span.flatpickr-weekday,
+abbr.flatpickr-weekday
   cursor default
   font-size 90%
   background $monthBackground
@@ -444,6 +449,8 @@ span.flatpickr-weekday
   display block
   flex 1
   font-weight bolder
+  text-decoration none
+  border-bottom none
 
 
 .dayContainer, .flatpickr-weeks
@@ -457,7 +464,8 @@ span.flatpickr-weekday
   width $daysWidth
 
   &:focus
-    outline 0
+    outline 2px solid #569ff7
+    outline-offset 2px
 
   if $noCalendarBorder is defined
     border-left 1px solid $calendarBorderColor
@@ -466,7 +474,7 @@ span.flatpickr-weekday
 
 .dayContainer
   padding 0
-  outline 0
+  outline 2px solid transparent
   text-align left
   width ($daysWidth)
   min-width ($daysWidth)
@@ -511,6 +519,11 @@ span.flatpickr-weekday
     &.inRange, &.today.inRange, &:hover, &:focus
       cursor pointer
       outline 0
+    
+    &:focus
+      outline 2px solid #569ff7 !important
+      outline-offset 2px
+      z-index 3
       background $dayHoverBackground
       border-color $dayHoverBackground
 
@@ -598,6 +611,7 @@ span.flatpickr-weekday
     float none
     width 100%
     line-height $weekdaysHeight
+    text-decoration none
 
   span.flatpickr-day
     &, &:hover
@@ -629,14 +643,18 @@ span.flatpickr-weekday
 
 .flatpickr-time
   text-align center
-  outline 0
+  outline 2px solid transparent
   display block
   height 0 // hide initially
   line-height $timeHeight
-  max-height $timeHeight
+  max-height 60px
   box-sizing border-box
   overflow hidden
   display flex
+  
+  &:focus-within
+    outline 2px solid #569ff7
+    outline-offset 2px
 
   if $noCalendarBorder is defined
     background $calendarBackground
@@ -672,9 +690,9 @@ span.flatpickr-weekday
     border-radius 0
     text-align center
     margin 0
-    padding 0
+    padding 6px 0
     height inherit
-    line-height inherit
+    line-height 1.8
     color $dayForeground
     font-size 14px
     position relative
@@ -691,7 +709,8 @@ span.flatpickr-weekday
       font-weight 400
 
     &:focus
-      outline 0
+      outline 2px solid #569ff7 !important
+      outline-offset 1px
       border 0
 
   .flatpickr-time-separator, .flatpickr-am-pm
@@ -705,11 +724,15 @@ span.flatpickr-weekday
     align-self center
 
   .flatpickr-am-pm
-    outline 0
+    outline 2px solid transparent
     width 18%
     cursor pointer
     text-align center
     font-weight 400
+    
+    &:focus
+      outline none
+      box-shadow 0 0 0 2px #569ff7 !important
 
   input, .flatpickr-am-pm
     &:hover, &:focus
@@ -717,3 +740,68 @@ span.flatpickr-weekday
 
 .flatpickr-input[readonly]
   cursor pointer
+// Screen reader only content
+.flatpickr-sr-only
+  position absolute
+  width 1px
+  height 1px
+  padding 0
+  margin -1px
+  overflow hidden
+  clip rect(0, 0, 0, 0)
+  white-space nowrap
+  border-width 0
+
+// Accessibility: Reduced motion support
+@media (prefers-reduced-motion: reduce)
+  .flatpickr-calendar
+    animation none !important
+    transition none !important
+
+    &.animate.open
+      animation none
+
+  @keyframes fpFadeInDown
+    from
+      opacity 1
+      transform translate3d(0, 0, 0)
+    to
+      opacity 1
+      transform translate3d(0, 0, 0)
+
+// Accessibility: High contrast mode support
+@media (prefers-contrast: high)
+  .flatpickr-calendar
+    border 2px solid currentColor
+
+  .flatpickr-day
+    border 1px solid currentColor
+
+    &:hover, &:focus
+      border 2px solid currentColor
+      outline 2px solid currentColor
+      outline-offset 2px
+
+    &.selected, &.selected:hover
+      background currentColor
+      color window
+      border 2px solid currentColor
+
+    &.disabled
+      opacity 0.4
+      text-decoration line-through
+
+  .flatpickr-months .flatpickr-prev-month,
+  .flatpickr-months .flatpickr-next-month
+    border 2px solid currentColor
+
+    &:hover, &:focus
+      outline 2px solid currentColor
+      outline-offset 2px
+
+  .flatpickr-current-month input
+    border 2px solid currentColor
+
+    &:focus
+      outline 2px solid currentColor
+      outline-offset 2px

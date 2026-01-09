@@ -63,6 +63,13 @@ export type Locale = {
   datePickerAriaLabel: string;
   confirmDateAriaLabel: string;
   monthsAriaLabel: string;
+  weekdayAriaLabel: string;
+  calendarAriaLabel: string;
+  gridAriaLabel: string;
+  rangeStartAriaLabel: string;
+  rangeEndAriaLabel: string;
+  todayAriaLabel: string;
+  closeAriaLabel: string;
   time_24hr: boolean;
 };
 
@@ -83,6 +90,13 @@ export type CustomLocale = {
   datePickerAriaLabel?: string;
   confirmDateAriaLabel?: string;
   monthsAriaLabel?: string;
+  weekdayAriaLabel?: string;
+  calendarAriaLabel?: string;
+  gridAriaLabel?: string;
+  rangeStartAriaLabel?: string;
+  rangeEndAriaLabel?: string;
+  todayAriaLabel?: string;
+  closeAriaLabel?: string;
   amPM?: Locale["amPM"];
   time_24hr?: Locale["time_24hr"];
   weekdays: {

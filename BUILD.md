@@ -88,7 +88,7 @@ Themes are built from individual Stylus files in `src/style/themes/`:
 - Each `*.styl` file in the themes directory is compiled to CSS
 - Themes extend the base flatpickr styles with custom variables
 - Available themes:
-  - `airbnb` - Airbnb-inspired design
+  - `modern` - Modern theme with micro-animations and dark mode (respects `prefers-reduced-motion`)
   - `confetti` - Colorful confetti theme
   - `dark` - Dark mode theme
   - `light` - Light minimalist theme
@@ -201,7 +201,6 @@ dist/
 ├── types/                # TypeScript type definitions
 │   └── ...
 ├── themes/               # Theme stylesheets
-│   ├── airbnb.css
 │   ├── dark.css
 │   ├── uikit.css
 │   └── ...

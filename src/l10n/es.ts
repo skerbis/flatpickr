@@ -69,6 +69,13 @@ export const Spanish: CustomLocale = {
   datePickerAriaLabel: "Selector de fecha",
   confirmDateAriaLabel: "Confirmar selección de fecha",
   monthsAriaLabel: "Meses",
+  weekdayAriaLabel: "Día de la semana",
+  calendarAriaLabel: "Calendario",
+  gridAriaLabel: "Cuadrícula del calendario, use las teclas de flecha para navegar",
+  rangeStartAriaLabel: "Inicio del rango",
+  rangeEndAriaLabel: "Fin del rango",
+  todayAriaLabel: "Hoy",
+  closeAriaLabel: "Cerrar selector de fecha",
   time_24hr: true,
 };
 

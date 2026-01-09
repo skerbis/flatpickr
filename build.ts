@@ -76,7 +76,10 @@ async function buildScripts() {
   try {
     await buildFlatpickrJs();
     const transpiled = await readFileAsync("./dist/flatpickr.js");
+    // Copy to pickit.js for new branding
+    fs.writeFile("./dist/pickit.js", transpiled);
     fs.writeFile("./dist/flatpickr.min.js", await uglify(transpiled));
+    fs.writeFile("./dist/pickit.min.js", await uglify(transpiled));
   } catch (e) {
     logErr(e);
   }
@@ -84,14 +87,17 @@ async function buildScripts() {
 
 function buildExtras(folder: "plugins" | "l10n") {
   return async function (changedPath?: string) {
-    const [srcPaths, cssPaths] = await Promise.all(
+    const [srcPaths, cssPaths, stylusPaths] = await Promise.all(
       changedPath !== undefined
         ? changedPath.endsWith(".ts")
-          ? [[changedPath], []]
-          : [[], [changedPath]]
+          ? [[changedPath], [], []]
+          : changedPath.endsWith(".styl")
+          ? [[], [], [changedPath]]
+          : [[], [changedPath], []]
         : [
             resolveGlob(`./src/${folder}/**/*.ts`),
             resolveGlob(`./src/${folder}/**/*.css`),
+            resolveGlob(`./src/${folder}/**/*.styl`),
           ]
     );
 
@@ -124,6 +130,12 @@ function buildExtras(folder: "plugins" | "l10n") {
             });
           }),
         ...(cssPaths.map((p) => fs.copy(p, p.replace("src", "dist"))) as any),
+        ...stylusPaths.map(async (stylusPath) => {
+          const src = await readFileAsync(stylusPath);
+          const destPath = stylusPath.replace("src", "dist").replace(".styl", ".css");
+          await fs.ensureDir(path.dirname(destPath));
+          return fs.writeFile(destPath, await transpileStyle(src));
+        }),
       ]);
     } catch (err) {
       logErr(err);
@@ -153,6 +165,8 @@ async function buildStyle() {
     await Promise.all([
       fs.writeFile("./dist/flatpickr.css", await transpileStyle(src)),
       fs.writeFile("./dist/flatpickr.min.css", await transpileStyle(src, true)),
+      fs.writeFile("./dist/pickit.css", await transpileStyle(src)),
+      fs.writeFile("./dist/pickit.min.css", await transpileStyle(src, true)),
       fs.writeFile("./dist/ie.css", await transpileStyle(srcIE)),
     ]);
   } catch (e) {
