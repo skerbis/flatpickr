@@ -163,7 +163,7 @@ Pickit aims to be:
 - Easily disable specific dates, date ranges, or any date using arbitrary logic
 - Week numbers
 - 51 locales
-- 10 beautiful themes (incl. dark, material, UIKit, and glassmorphism)
+- 2 modern themes with CSS variables (default and custom) - fully accessible with dark mode support
 - Numerous plugins
 - Libraries available for React, Angular, Vue, Ember, and more
 
@@ -258,6 +258,30 @@ pickit("#myDatePicker", {
 ```
 
 All ARIA labels will automatically use the selected locale.
+
+## Theming
+
+Pickit includes two modern, accessible themes:
+
+### Default Theme
+The default theme (`dist/themes/default.css`) provides a clean, modern design with:
+- Automatic dark mode support via `prefers-color-scheme`
+- CSS variables for easy customization (`--pickit-*` prefix)
+- High contrast mode support
+- Reduced motion support
+
+### Custom Theme
+The custom theme (`dist/themes/custom.css`) is fully customizable via CSS variables. See [CUSTOM_THEME.md](CUSTOM_THEME.md) for complete documentation and examples.
+
+```html
+<!-- Use default theme -->
+<link rel="stylesheet" href="node_modules/pickit/dist/themes/default.css">
+
+<!-- Or use custom theme -->
+<link rel="stylesheet" href="node_modules/pickit/dist/themes/custom.css">
+```
+
+Both themes automatically adapt to user preferences for dark mode, high contrast, and reduced motion.
 
 ## Building & Development
 
