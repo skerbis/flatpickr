@@ -1,0 +1,861 @@
+@require "./_vars.styl"
+
+@keyframes fpFadeInDown
+  from
+    opacity 0
+    transform translate3d(0, -20px, 0)
+
+  to
+    opacity 1
+    transform translate3d(0, 0, 0)
+
+
+.flatpickr-calendar
+  // CSS Variables for theming
+  --pickit-bg: #ffffff
+  --pickit-text: #1f2937
+  --pickit-border: #e5e7eb
+  --pickit-border-radius: 8px
+  --pickit-shadow: 0 4px 6px rgba(0, 0, 0, 0.1)
+  
+  --pickit-month-bg: #f9fafb
+  --pickit-month-text: #1f2937
+  --pickit-arrow-hover: #3b82f6
+  
+  --pickit-weekdays-bg: #f3f4f6
+  --pickit-weekdays-text: #6b7280
+  
+  --pickit-day-text: #1f2937
+  --pickit-day-hover-bg: #f3f4f6
+  --pickit-day-disabled: #9ca3af
+  
+  --pickit-today-bg: #dbeafe
+  --pickit-today-text: #1e40af
+  --pickit-today-border: #3b82f6
+  
+  --pickit-selected-bg: #3b82f6
+  --pickit-selected-text: #ffffff
+  
+  --pickit-range-bg: #93c5fd
+  --pickit-range-text: #1e3a8a
+  
+  --pickit-time-bg: #f9fafb
+  --pickit-time-border: #e5e7eb
+  --pickit-time-text: #1f2937
+  
+  background transparent
+  opacity 0
+  display none
+  text-align center
+  visibility hidden
+  padding 0
+  animation none
+  direction ltr
+  border 0
+  font-size 14px
+  line-height 24px
+  border-radius var(--pickit-border-radius)
+  position absolute
+  width $calendarWidth
+  box-sizing border-box
+  touch-action manipulation
+
+  if $noCalendarBorder is defined
+    box-shadow var(--pickit-shadow)
+
+  else
+    background var(--pickit-bg)
+    box-shadow 1px 0 0 var(--pickit-border),
+      -1px 0 0 var(--pickit-border),
+      0 1px 0 var(--pickit-border),
+      0 -1px 0 var(--pickit-border),
+      var(--pickit-shadow)
+
+
+  &.open, &.inline
+    opacity 1
+    max-height 640px
+    visibility visible
+
+  &.open
+    display inline-block
+    z-index 99999
+
+  &.animate.open
+    animation fpFadeInDown 300ms $bezier
+
+  &.inline
+    display block
+    position relative
+    top 2px
+
+  &.static
+    position absolute
+    top calc(100% + 2px)
+
+    &.open
+      z-index 999
+      display block
+
+  &.multiMonth
+    .flatpickr-days .dayContainer:nth-child(n+1)
+      & .flatpickr-day.inRange:nth-child(7n+7)
+        box-shadow: none !important;
+
+    .flatpickr-days .dayContainer:nth-child(n+2)
+      & .flatpickr-day.inRange:nth-child(7n+1)
+        box-shadow: -2px 0 0 #e6e6e6, 5px 0 0 #e6e6e6
+
+
+
+  .hasWeeks, .hasTime
+    .dayContainer
+      border-bottom 0
+      border-bottom-right-radius 0
+      border-bottom-left-radius 0
+
+  if $noCalendarBorder
+    .hasWeeks .dayContainer
+      border-left 0
+
+  &.hasTime
+    .flatpickr-time
+      height $timeHeight
+      border-top 1px solid $calendarBorderColor
+
+    if $noCalendarBorder is defined
+      .flatpickr-innerContainer
+        border-bottom 0
+
+      .flatpickr-time
+        border 1px solid $calendarBorderColor
+
+  &.noCalendar.hasTime
+    background transparent
+    box-shadow none
+    
+    .flatpickr-time
+      height auto
+
+  &:before, &:after
+    position absolute
+    display block
+    pointer-events none
+    border solid transparent
+    content ''
+    height 0
+    width 0
+    left 22px
+
+  &.rightMost, &.arrowRight
+    &:before, &:after
+      left auto
+      right 22px
+
+  &.arrowCenter
+    &:before, &:after
+      left 50%
+      right 50%
+
+  &:before
+    border-width 5px
+    margin 0 -5px
+
+  &:after
+    border-width 4px
+    margin 0 -4px
+
+  &.arrowTop
+    &:before, &:after
+      bottom 100%
+    &:before
+      border-bottom-color var(--pickit-border)
+    &:after
+      border-bottom-color var(--pickit-month-bg)
+
+  &.arrowBottom
+    &:before, &:after
+      top 100%
+    &:before
+      border-top-color var(--pickit-border)
+    &:after
+      border-top-color var(--pickit-month-bg)
+
+  &:focus
+    outline 0
+
+.flatpickr-wrapper
+  position relative
+  display inline-block
+
+.flatpickr-months
+  display flex
+
+  .flatpickr-month
+    if $noCalendarBorder is defined
+      border-radius 5px 5px 0 0
+    background var(--pickit-month-bg)
+    color var(--pickit-month-text)
+    fill var(--pickit-month-text)
+    height $monthNavHeight
+    line-height 1
+    text-align center
+    position relative
+    user-select none
+    overflow hidden
+    flex 1
+
+  .flatpickr-prev-month, .flatpickr-next-month
+    user-select none
+    text-decoration none
+    cursor pointer
+    position absolute
+    top 0
+    height $monthNavHeight
+    padding 10px
+    z-index 3
+    color var(--pickit-month-text)
+    fill var(--pickit-month-text)
+
+    &.flatpickr-disabled
+      display none
+
+    i
+      position relative
+
+    &.flatpickr-prev-month
+      /*!
+      /*rtl:begin:ignore*//*
+      */
+      left 0
+      /*!
+      /*rtl:end:ignore*//*
+      */
+
+
+    &.flatpickr-next-month
+      /*!
+      /*rtl:begin:ignore*//*
+      */
+      right 0
+      /*!
+      /*rtl:end:ignore*//*
+      */
+
+    &:hover
+      color var(--pickit-arrow-hover)
+      svg
+        fill var(--pickit-arrow-hover)
+
+    svg
+      width 14px
+      height 14px
+
+      path
+        transition fill 0.1s
+        fill inherit
+
+
+.numInputWrapper
+  position relative
+  height auto
+
+  input, span
+    display inline-block
+
+  input
+    width 100%
+    &::-ms-clear
+      display none
+
+    &::-webkit-outer-spin-button, &::-webkit-inner-spin-button
+      margin 0
+      -webkit-appearance none
+
+  span
+    position absolute
+    right 0
+    width 14px
+    padding 0 4px 0 2px
+    height 50%
+    line-height 50%
+    opacity 0.6
+    cursor pointer
+    border 1px solid var(--pickit-border)
+    box-sizing border-box
+
+    &:hover
+      background: var(--pickit-day-hover-bg)
+
+    &:active
+      background: var(--pickit-day-hover-bg)
+
+    &:after
+      display block
+      content ""
+      position absolute
+
+    &.arrowUp
+      top 0
+      border-bottom 0
+
+      &:after
+        border-left 4px solid transparent
+        border-right 4px solid transparent
+        border-bottom 4px solid var(--pickit-day-text)
+        top 26%
+
+    &.arrowDown
+      top 50%
+
+      &:after
+        border-left 4px solid transparent
+        border-right 4px solid transparent
+        border-top 4px solid var(--pickit-day-text)
+        top 40%
+
+    svg
+      width inherit
+      height auto
+      path
+        fill var(--pickit-month-text)
+
+  &:hover
+    background: var(--pickit-day-hover-bg)
+
+    span
+      opacity 1
+
+
+.flatpickr-current-month
+  font-size 135%
+  line-height inherit
+  font-weight 300
+  color inherit
+  position absolute
+  width 75%
+  left 12.5%
+  padding (0.22*$monthNavHeight) 0 0 0
+  line-height 1
+  height $monthNavHeight
+  display inline-block
+  text-align center
+  transform translate3d(0px, 0px, 0px)
+
+  span.cur-month
+    font-family inherit
+    font-weight 700
+    color inherit
+    display inline-block
+    margin-left 0.5ch
+    padding 0
+
+    &:hover
+      background: var(--pickit-day-hover-bg)
+
+
+  .numInputWrapper
+    width 6ch
+    width unquote("7ch\0")
+    display inline-block
+
+    span.arrowUp:after
+      border-bottom-color var(--pickit-month-text)
+
+    span.arrowDown:after
+      border-top-color var(--pickit-month-text)
+
+  input.cur-year
+    background transparent
+    box-sizing border-box
+    color inherit
+    cursor text
+    padding 0 0 0 0.5ch
+    margin 0
+    display inline-block
+    font-size inherit
+    font-family inherit
+    font-weight 300
+    line-height inherit
+    height auto
+    border 0
+    border-radius 0
+    vertical-align initial
+    -webkit-appearance textfield
+    -moz-appearance textfield
+    appearance textfield
+
+    &:focus
+      outline 0
+
+    &[disabled], &[disabled]:hover
+      font-size 100%
+      color var(--pickit-day-disabled)
+      background transparent
+      pointer-events none
+
+  .flatpickr-monthDropdown-months
+    background: var(--pickit-month-bg)
+    border: none
+    border-radius: 0
+    color: inherit
+    cursor: pointer
+    font-size: inherit
+    font-family: inherit
+    font-weight: 300
+    height: auto
+    line-height: inherit
+    margin: -1px 0 0 0
+    outline: 2px solid transparent
+    padding: 0 0 0 0.5ch
+    position: relative
+    vertical-align: initial
+    box-sizing: border-box
+    -webkit-appearance: menulist
+    -moz-appearance: menulist
+    appearance: menulist
+    width: auto
+
+    &:focus, &:active
+      outline: 2px solid #569ff7 !important
+      outline-offset: 2px !important
+
+    &:hover
+      background: var(--pickit-day-hover-bg)
+
+    .flatpickr-monthDropdown-month
+      background-color: var(--pickit-month-bg)
+      outline: none
+      padding: 0
+
+// Safari-specific select fixes
+@supports (-webkit-appearance: none)
+  .flatpickr-monthDropdown-months
+    // Fix for Safari select rendering
+    -webkit-appearance: menulist-button
+    // Ensure proper padding on Safari
+    padding-right: 20px
+    
+  // Fix select arrow positioning on Safari
+  .flatpickr-current-month .flatpickr-monthDropdown-months
+    background-image: none
+    
+  // Prevent Safari from adding extra spacing
+  .flatpickr-monthDropdown-month
+    padding: 2px 8px
+
+.flatpickr-weekdays
+  background var(--pickit-weekdays-bg)
+  text-align center
+  overflow hidden
+  width 100%
+  display flex
+  align-items center
+  height $weekdaysHeight
+
+  .flatpickr-weekdaycontainer
+    display flex
+    flex 1
+
+
+
+span.flatpickr-weekday,
+abbr.flatpickr-weekday
+  cursor default
+  font-size 90%
+  background var(--pickit-month-bg)
+  color var(--pickit-weekdays-text)
+  line-height 1
+  margin 0
+  text-align center
+  display block
+  flex 1
+  font-weight bolder
+  text-decoration none
+  border-bottom none
+
+
+.dayContainer, .flatpickr-weeks
+  padding 1px 0 0 0
+
+.flatpickr-days
+  position: relative;
+  overflow: hidden;
+  display flex
+  align-items: flex-start;
+  width $daysWidth
+
+  &:focus
+    outline 2px solid #569ff7
+    outline-offset 2px
+
+  if $noCalendarBorder is defined
+    border-left 1px solid var(--pickit-border)
+    border-right 1px solid var(--pickit-border)
+
+
+.dayContainer
+  padding 0
+  outline 2px solid transparent
+  text-align left
+  width ($daysWidth)
+  min-width ($daysWidth)
+  max-width ($daysWidth)
+  box-sizing border-box
+  display inline-block
+  display -ms-flexbox
+  display flex
+  -ms-flex-wrap wrap
+  flex-wrap wrap
+  -ms-flex-pack: justify
+  justify-content space-around
+  transform: translate3d(0px, 0px, 0px);
+  opacity 1
+
+  & + .dayContainer
+    box-shadow: -1px 0 0 var(--pickit-border);
+
+
+.flatpickr-day
+  background none
+  border 1px solid transparent
+  border-radius 150px
+  box-sizing border-box
+  color var(--pickit-day-text)
+  cursor pointer
+
+  font-weight 400
+  width 14.2857143%
+  flex-basis 14.2857143%
+  max-width $daySize
+  height $daySize
+  line-height $daySize
+  margin 0
+
+  display inline-block
+  position relative
+  justify-content center
+  text-align center
+
+  &, &.prevMonthDay, &.nextMonthDay
+    &.inRange, &.today.inRange, &:hover, &:focus
+      cursor pointer
+      outline 0
+    
+    &:focus
+      outline 2px solid #569ff7 !important
+      outline-offset 2px
+      z-index 3
+      background var(--pickit-day-hover-bg)
+      border-color var(--pickit-day-hover-bg)
+
+
+  &.today
+    border-color var(--pickit-today-border)
+
+    &:hover, &:focus
+      border-color var(--pickit-today-border)
+      background var(--pickit-today-bg)
+      color var(--pickit-today-text)
+
+  &.selected, &.startRange, &.endRange
+    &, &.inRange, &:focus, &:hover, &.prevMonthDay, &.nextMonthDay
+      background var(--pickit-selected-bg)
+      box-shadow none
+      color var(--pickit-selected-text)
+      border-color var(--pickit-selected-bg)
+
+    &.startRange
+      border-radius 50px 0 0 50px
+      //box-shadow:  (2.5*$dayMargin) 0 0 $selectedDayBackground
+
+    &.endRange
+      border-radius 0 50px 50px 0
+
+    // Avoid adding extra fill because it overflows in multimonth mode
+    &.startRange + .endRange:not(:nth-child(7n+1))
+      box-shadow: (-5*$dayMargin) 0 0 var(--pickit-selected-bg)
+
+    &.startRange.endRange
+      border-radius 50px
+
+  &.inRange
+    border-radius 0
+    background var(--pickit-range-bg)
+    box-shadow: (-2.5*$dayMargin) 0 0 var(--pickit-range-bg), (2.5*$dayMargin) 0 0 var(--pickit-range-bg)
+
+  &.flatpickr-disabled, &.flatpickr-disabled:hover,
+  &.prevMonthDay, &.nextMonthDay,
+  &.notAllowed, &.notAllowed.prevMonthDay, &.notAllowed.nextMonthDay
+    color var(--pickit-day-disabled)
+    background transparent
+    border-color transparent
+    cursor default
+
+  &.flatpickr-disabled, &.flatpickr-disabled:hover
+    cursor not-allowed
+    color var(--pickit-day-disabled)
+
+  &.week.selected
+    border-radius 0
+    box-shadow: (-2.5*$dayMargin) 0 0 var(--pickit-selected-bg),
+      (2.5*$dayMargin) 0 0 var(--pickit-selected-bg)
+
+  &.hidden
+    visibility hidden
+
+.rangeMode .flatpickr-day
+  margin-top 1px
+
+.flatpickr-weekwrapper
+  float left
+
+  .flatpickr-weeks
+    padding 0 12px
+    if $noCalendarBorder is defined
+      border-left 1px solid var(--pickit-border)
+    else
+      box-shadow 1px 0 0 var(--pickit-border)
+
+  .flatpickr-weekday
+    float none
+    width 100%
+    line-height $weekdaysHeight
+    text-decoration none
+
+  span.flatpickr-day
+    &, &:hover
+      display block
+      width 100%
+      max-width none
+      color var(--pickit-day-disabled)
+      background transparent
+      cursor default
+      border none
+
+
+.flatpickr-innerContainer
+  display block
+  display flex
+  box-sizing border-box
+  overflow: hidden;
+
+  if $noCalendarBorder is defined
+    background var(--pickit-bg)
+    border-bottom 1px solid var(--pickit-border)
+
+
+.flatpickr-rContainer
+  display inline-block
+  padding 0
+  box-sizing border-box
+
+
+.flatpickr-time
+  text-align center
+  outline 0
+  display block
+  height 0 // hide initially
+  line-height $timeHeight
+  max-height 54px
+  box-sizing border-box
+  overflow hidden
+  display flex
+
+  if $noCalendarBorder is defined
+    background var(--pickit-time-bg)
+    border-radius 0 0 5px  5px
+
+  &:after
+    content ""
+    display table
+    clear both
+
+  .numInputWrapper
+    flex 1
+    width 40%
+    height $timeHeight
+    float left
+
+    span.arrowUp:after
+      border-bottom-color var(--pickit-day-text)
+
+    span.arrowDown:after
+      border-top-color var(--pickit-day-text)
+
+  &.hasSeconds .numInputWrapper
+    width 26%
+
+  &.time24hr .numInputWrapper
+    width 49%
+
+  input
+    background var(--pickit-time-bg)
+    box-shadow none
+    border 0
+    border-radius 0
+    text-align center
+    margin 0
+    padding 6px 0
+    height inherit
+    line-height 1.8
+    color var(--pickit-time-text)
+    font-size 14px
+    position relative
+    box-sizing border-box
+    -webkit-appearance textfield
+    -moz-appearance textfield
+    appearance textfield
+
+
+    &.flatpickr-hour
+      font-weight bold
+
+    &.flatpickr-minute, &.flatpickr-second
+      font-weight 400
+
+    &:focus
+      outline 0
+      border 0
+
+  .flatpickr-time-separator, .flatpickr-am-pm
+    height inherit
+    float left
+    line-height inherit
+    color var(--pickit-time-text)
+    font-weight bold
+    width 2%
+    user-select none
+    align-self center
+
+  .flatpickr-am-pm
+    outline 0
+    width 18%
+    cursor pointer
+    text-align center
+    font-weight 400
+    
+    &:focus
+      outline none
+      box-shadow 0 0 0 2px #569ff7 !important
+
+  input, .flatpickr-am-pm
+    &:hover, &:focus
+      background var(--pickit-day-hover-bg)
+
+.flatpickr-input[readonly]
+  cursor pointer
+// Screen reader only content
+.flatpickr-sr-only
+  position absolute
+  width 1px
+  height 1px
+  padding 0
+  margin -1px
+  overflow hidden
+  clip rect(0, 0, 0, 0)
+  white-space nowrap
+  border-width 0
+
+// Accessibility: Reduced motion support
+@media (prefers-reduced-motion: reduce)
+  .flatpickr-calendar
+    animation none !important
+    transition none !important
+
+    &.animate.open
+      animation none
+
+  @keyframes fpFadeInDown
+    from
+      opacity 1
+      transform translate3d(0, 0, 0)
+    to
+      opacity 1
+      transform translate3d(0, 0, 0)
+
+// Accessibility: High contrast mode support
+@media (prefers-contrast: high)
+  .flatpickr-calendar
+    border 2px solid currentColor
+
+  .flatpickr-day
+    border 1px solid currentColor
+
+    &:hover, &:focus
+      border 2px solid currentColor
+      outline 2px solid currentColor
+      outline-offset 2px
+
+    &.selected, &.selected:hover
+      background currentColor
+      color window
+      border 2px solid currentColor
+
+    &.disabled
+      opacity 0.4
+      text-decoration line-through
+
+  .flatpickr-months .flatpickr-prev-month,
+  .flatpickr-months .flatpickr-next-month
+    border 2px solid currentColor
+
+    &:hover, &:focus
+      outline 2px solid currentColor
+      outline-offset 2px
+
+  .flatpickr-current-month input
+    border 2px solid currentColor
+
+    &:focus
+      outline 2px solid currentColor
+      outline-offset 2px
+
+// Base Dark Mode support
+@media (prefers-color-scheme: dark)
+  .flatpickr-calendar
+    --pickit-bg: #2d2d2d
+    --pickit-text: #e8e8e8
+    --pickit-border: #4a4a4a
+    --pickit-shadow: 0 4px 12px rgba(0, 0, 0, 0.6)
+    
+    --pickit-month-bg: #242424
+    --pickit-month-text: #f0f0f0
+    --pickit-arrow-hover: #6b6b6b
+    
+    --pickit-weekdays-bg: #2d2d2d
+    --pickit-weekdays-text: #a0a0a0
+    
+    --pickit-day-text: #d8d8d8
+    --pickit-day-hover-bg: #3a3a3a
+    --pickit-day-disabled: #666666
+    
+    --pickit-today-bg: #404040
+    --pickit-today-text: #ffffff
+    --pickit-today-border: #5a5a5a
+    
+    --pickit-selected-bg: #4a4a4a
+    --pickit-selected-text: #ffffff
+    
+    --pickit-range-bg: #3a3a3a
+    --pickit-range-text: #d0d0d0
+    
+    --pickit-time-bg: #242424
+    --pickit-time-border: #4a4a4a
+    --pickit-time-text: #e8e8e8
+    
+    background var(--pickit-bg) !important
+    border-color var(--pickit-border) !important
+    box-shadow var(--pickit-shadow) !important
+    
+  .flatpickr-months .flatpickr-month
+    background var(--pickit-month-bg) !important
+    color var(--pickit-month-text) !important
+    fill var(--pickit-month-text) !important
+    
+  .flatpickr-weekdays
+    background var(--pickit-weekdays-bg) !important
+    
+  .flatpickr-time
+    background var(--pickit-time-bg) !important
+    border-color var(--pickit-time-border) !important

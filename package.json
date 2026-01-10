@@ -57,14 +57,14 @@
   "types": "./dist/typings.d.ts",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/chmln/flatpickr.git"
+    "url": "git+https://github.com/skerbis/pickit.git"
   },
-  "author": "Gregory <gregory.mkv@gmail.com>",
+  "author": "skerbis",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/chmln/flatpickr/issues"
+    "url": "https://github.com/skerbis/pickit/issues"
   },
-  "homepage": "https://flatpickr.js.org",
+  "homepage": "https://github.com/skerbis/pickit",
   "keywords": [
     "javascript",
     "datetimepicker",

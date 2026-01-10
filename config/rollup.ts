@@ -10,11 +10,11 @@ import { RollupOptions } from "rollup";
 export const getConfig = (opts?: { dev: boolean }): RollupOptions => ({
   input: "./src/index.ts",
   output: {
-    file: "dist/flatpickr.js",
-    name: "flatpickr",
+    file: "dist/pickit.js",
+    name: "pickit",
     format: "umd",
     exports: "default",
-    banner: `/* flatpickr v${pkg.version}, @license MIT */`,
+    banner: `/* pickit v${pkg.version}, @license MIT */`,
     ...(opts && opts.dev ? { sourcemap: true } : {}),
   },
   onwarn(warning) {

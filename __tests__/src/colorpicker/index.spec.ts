@@ -25,14 +25,14 @@ describe("ColorPicker", () => {
   });
 
   it("should accept custom default color", () => {
-    const picker = colorpicker(input, {
+    colorpicker(input, {
       defaultColor: "#ff0000",
     });
     expect(input.value).toBe("#ff0000");
   });
 
   it("should support RGB format", () => {
-    const picker = colorpicker(input, {
+    colorpicker(input, {
       format: "rgb",
       defaultColor: "rgb(255, 0, 0)",
     });
@@ -40,7 +40,7 @@ describe("ColorPicker", () => {
   });
 
   it("should support HSL format", () => {
-    const picker = colorpicker(input, {
+    colorpicker(input, {
       format: "hsl",
       defaultColor: "hsl(0, 100%, 50%)",
     });
@@ -48,7 +48,7 @@ describe("ColorPicker", () => {
   });
 
   it("should parse HEX colors", () => {
-    const picker = colorpicker(input, {
+    colorpicker(input, {
       defaultColor: "#3b82f6",
     });
     expect(input.value).toMatch(/^#[0-9a-f]{6}$/i);
@@ -56,7 +56,7 @@ describe("ColorPicker", () => {
 
   it("should call onChange callback", () => {
     const onChange = jest.fn();
-    const picker = colorpicker(input, {
+    colorpicker(input, {
       onChange,
       defaultColor: "#000000",
     });
@@ -82,7 +82,7 @@ describe("ColorPicker", () => {
   });
 
   it("should support alpha channel", () => {
-    const picker = colorpicker(input, {
+    colorpicker(input, {
       format: "hsl",
       showAlpha: true,
       defaultColor: "hsla(0, 100%, 50%, 0.5)",
@@ -114,7 +114,7 @@ describe("ColorPicker", () => {
     const container = document.createElement("div");
     document.body.appendChild(container);
 
-    const picker = colorpicker(input, {
+    colorpicker(input, {
       inline: true,
       appendTo: container,
     });

@@ -15,13 +15,13 @@ import rollupConfig, { getConfig } from "./config/rollup";
 import colorpickerConfig from "./config/rollup.colorpicker";
 
 import * as pkg from "./package.json";
-const version = `/* flatpickr v${pkg.version},, @license MIT */`;
+const version = `/* pickit v${pkg.version}, @license MIT */`;
 
 let DEV_MODE = process.argv.indexOf("--dev") > -1;
 
 const paths = {
   themes: "./src/style/themes/*.styl",
-  style: "./src/style/flatpickr.styl",
+  style: "./src/style/pickit.styl",
   colorpicker: "./src/colorpicker/colorpicker.styl",
   plugins: "./src/plugins",
   l10n: "./src/l10n",
@@ -69,7 +69,7 @@ async function uglify(src: string) {
   }
 }
 
-async function buildFlatpickrJs() {
+async function buildPickitJs() {
   const bundle = await rollup.rollup(rollupConfig);
   return bundle.write(rollupConfig.output as rollup.OutputOptions);
 }
@@ -98,11 +98,8 @@ async function buildColorPicker() {
 
 async function buildScripts() {
   try {
-    await buildFlatpickrJs();
-    const transpiled = await readFileAsync("./dist/flatpickr.js");
-    // Copy to pickit.js for new branding
-    fs.writeFile("./dist/pickit.js", transpiled);
-    fs.writeFile("./dist/flatpickr.min.js", await uglify(transpiled));
+    await buildPickitJs();
+    const transpiled = await readFileAsync("./dist/pickit.js");
     fs.writeFile("./dist/pickit.min.js", await uglify(transpiled));
   } catch (e) {
     logErr(e);
@@ -189,8 +186,6 @@ async function buildStyle() {
     ]);
 
     await Promise.all([
-      fs.writeFile("./dist/flatpickr.css", await transpileStyle(src)),
-      fs.writeFile("./dist/flatpickr.min.css", await transpileStyle(src, true)),
       fs.writeFile("./dist/pickit.css", await transpileStyle(src)),
       fs.writeFile("./dist/pickit.min.css", await transpileStyle(src, true)),
       fs.writeFile("./dist/ie.css", await transpileStyle(srcIE)),

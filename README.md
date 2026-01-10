@@ -1,303 +1,548 @@
-# Pickit - Accessible Picker Collection
+# Pickit
 
-**Pickit** is an accessibility-enhanced fork of [flatpickr](https://github.com/flatpickr/flatpickr) expanded into a comprehensive picker collection with full WCAG 2.1 AA compliance.
+**Pickit** ist ein barrierefreier, leichtgewichtiger Datum & Zeit Picker mit vollständiger WCAG 2.1 AA Konformität.
 
-> 🔄 **Forked from flatpickr** - This project builds upon the excellent foundation of flatpickr, adding enhanced accessibility features and new picker types while maintaining full compatibility.
+> 🔄 **Fork von flatpickr** - Dieses Projekt baut auf der hervorragenden Grundlage von [flatpickr](https://github.com/flatpickr/flatpickr) auf und erweitert es um verbesserte Barrierefreiheit-Features. Vielen Dank an das flatpickr-Team für die großartige Arbeit!
 
-## Why Pickit?
+[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
 
-Pickit is more than just a date picker - it's a complete collection of accessible pickers:
+## ✨ Features
 
-- 📅 **Date & Time Picker** - Enhanced version of flatpickr with full accessibility
-- 🎨 **Color Picker** - Modern color picker with HSL/RGB/HEX support and presets
-- ✅ **WCAG 2.1 AA compliant** with comprehensive ARIA support
-- ♿ **Screen reader optimized** with live regions and proper announcements
-- ⌨️ **Full keyboard navigation** for all picker types
-- 🎯 **Improved focus management** and visual indicators
-- 🎨 **Reduced motion support** for users with vestibular disorders
-- 🔍 **High contrast mode** support
-- 🌐 **51+ locales** with comprehensive ARIA label translations (date picker)
+- 📅 **Datum & Zeit Picker** mit vollständiger Barrierefreiheit
+- ♿ **WCAG 2.1 AA konform** mit umfassender ARIA-Unterstützung
+- 📢 **Screen Reader optimiert** mit Live-Regionen und klaren Ansagen
+- ⌨️ **Vollständige Tastaturnavigation**
+- 🎯 **Verbesserte Focus-Verwaltung** mit visuellen Indikatoren
+- 🎨 **Reduced Motion Support** für Nutzer mit vestibulären Störungen
+- 🔍 **High Contrast Mode** Unterstützung
+- 🌗 **Automatischer Dark Mode** via `prefers-color-scheme`
+- 🌐 **67 Sprachen** mit umfassenden ARIA-Label Übersetzungen
+- 🚀 **Keine Abhängigkeiten** - komplett standalone
+- 📦 **Leichtgewichtig** - nur ein Bruchteil der Größe anderer Bibliotheken
 
-## Quick Start
+## 📦 Installation
 
-### Installation
+### npm
 
 ```bash
 npm install pickit
 ```
 
-### Date Picker Usage
+### CDN
 
 ```html
-<!-- Include CSS -->
-<link rel="stylesheet" href="node_modules/pickit/dist/pickit.css">
+<!-- CSS -->
+<link rel="stylesheet" href="https://unpkg.com/pickit/dist/pickit.min.css">
 
-<!-- Your input -->
-<input type="text" id="datepicker" placeholder="Select Date">
+<!-- JavaScript -->
+<script src="https://unpkg.com/pickit/dist/pickit.min.js"></script>
+```
 
-<!-- Include JS -->
-<script src="node_modules/pickit/dist/pickit.js"></script>
+## 🚀 Schnellstart
+
+### Datum Picker
+
+```html
+<input type="text" id="datepicker" placeholder="Datum wählen">
+
 <script>
-  // Initialize
-  pickit("#datepicker");
+  pickit("#datepicker", {
+    dateFormat: "d.m.Y",
+    locale: "de"
+  });
 </script>
 ```
 
-### ES6 Module
-
-```javascript
-import pickit from "pickit";
-
-// Date picker
-pickit("#datepicker", {
-  enableTime: true,
-  dateFormat: "Y-m-d H:i",
-});
-
-// Color picker
-import colorpicker from "pickit/colorpicker";
-
-colorpicker("#colorInput", {
-  format: "hex",
-  showAlpha: false,
-  presetColors: ["#3b82f6", "#10b981", "#f59e0b"]
-});
-```
-
-### With Locale
+### Mit ES6 Modulen
 
 ```javascript
 import pickit from "pickit";
 import { German } from "pickit/dist/l10n/de.js";
 
 pickit("#datepicker", {
-  locale: German
+  locale: German,
+  dateFormat: "d.m.Y"
 });
 ```
 
-## 🎨 Color Picker
+## 📖 Anwendungsbeispiele
 
-The color picker component provides a modern, accessible interface for color selection with support for multiple formats.
-
-[📖 Full ColorPicker Documentation](src/colorpicker/README.md) | [🎯 Live Demo](demo-colorpicker.html)
-
-### Quick Example
+### Einfacher Datum Picker
 
 ```javascript
-import colorpicker from "pickit/colorpicker";
+pickit("#date", {
+  dateFormat: "d.m.Y"
+});
+```
 
-const picker = colorpicker("#colorInput", {
-  format: "hex",              // 'hex', 'rgb', or 'hsl'
-  showAlpha: false,           // Enable alpha channel
-  presetColors: [             // Quick access colors
-    "#3b82f6", "#10b981", "#f59e0b"
-  ],
-  onChange: (color) => {
-    console.log("Selected:", color);
+### Datum & Zeit Picker
+
+```javascript
+pickit("#datetime", {
+  enableTime: true,
+  dateFormat: "d.m.Y H:i",
+  time_24hr: true
+});
+```
+
+### Zeitbereich Auswahl
+
+```javascript
+pickit("#daterange", {
+  mode: "range",
+  dateFormat: "d.m.Y"
+});
+```
+
+### Mehrfachauswahl
+
+```javascript
+pickit("#multiple", {
+  mode: "multiple",
+  dateFormat: "d.m.Y",
+  conjunction: " / "
+});
+```
+
+### Nur Zeit-Picker
+
+```javascript
+pickit("#time", {
+  enableTime: true,
+  noCalendar: true,
+  dateFormat: "H:i",
+  time_24hr: true
+});
+```
+
+### Inline Kalender
+
+```javascript
+pickit("#inline", {
+  inline: true,
+  dateFormat: "d.m.Y"
+});
+```
+
+### Mit Mindest- und Maximaldatum
+
+```javascript
+pickit("#date", {
+  minDate: "today",
+  maxDate: new Date().fp_incr(14), // 14 Tage ab heute
+  dateFormat: "d.m.Y"
+});
+```
+
+### Bestimmte Daten deaktivieren
+
+```javascript
+pickit("#date", {
+  disable: [
+    // Wochenenden deaktivieren
+    function(date) {
+      return (date.getDay() === 0 || date.getDay() === 6);
+    },
+    // Spezifische Daten
+    "2026-01-25",
+    "2026-01-26"
+  ]
+});
+```
+
+### Mit Bestätigungs-Button (Plugin)
+
+```javascript
+import confirmDatePlugin from "pickit/dist/plugins/confirmDate/confirmDate.js";
+
+pickit("#date", {
+  plugins: [
+    confirmDatePlugin({
+      confirmText: "Bestätigen",
+      confirmIcon: "✓"
+    })
+  ]
+});
+```
+
+## 🎨 Theming
+
+Pickit bietet 2 moderne, barrierefreie Themes mit CSS-Variablen:
+
+### Default Theme
+
+```html
+<link rel="stylesheet" href="node_modules/pickit/dist/themes/default.css">
+```
+
+Das Default Theme bietet:
+- Sauberes, modernes Design
+- Automatischer Dark Mode via `prefers-color-scheme`
+- CSS-Variablen zur Anpassung (`--pickit-*` Prefix)
+
+### Custom Theme
+
+```html
+<link rel="stylesheet" href="node_modules/pickit/dist/themes/custom.css">
+```
+
+Vollständig anpassbar über CSS-Variablen:
+
+```css
+.flatpickr-calendar {
+  --pickit-selected-bg: #e91e63;
+  --pickit-today-color: #e91e63;
+  --pickit-border-radius: 12px;
+}
+```
+
+Siehe [CUSTOM_THEME.md](CUSTOM_THEME.md) für die vollständige Liste der CSS-Variablen.
+
+## 📚 API Referenz
+
+### Initialisierung
+
+```javascript
+const instance = pickit(selector, options);
+```
+
+**Parameter:**
+- `selector` (String | HTMLElement | NodeList): DOM-Element(e) für den Picker
+- `options` (Object): Konfigurationsoptionen
+
+### Kern-Optionen
+
+| Option | Typ | Standard | Beschreibung |
+|--------|-----|----------|--------------|
+| `dateFormat` | String | `"Y-m-d"` | Format der Datumsanzeige |
+| `defaultDate` | String\|Date\|Array | `null` | Vorbelegtes Datum |
+| `mode` | String | `"single"` | Auswahlmodus: `"single"`, `"multiple"`, `"range"`, `"time"` |
+| `enableTime` | Boolean | `false` | Zeit-Auswahl aktivieren |
+| `noCalendar` | Boolean | `false` | Nur Zeit-Picker (Kalender ausblenden) |
+| `time_24hr` | Boolean | `false` | 24-Stunden Format |
+| `inline` | Boolean | `false` | Inline-Anzeige (immer sichtbar) |
+| `locale` | String\|Object | `"default"` | Sprache/Lokalisierung |
+| `minDate` | String\|Date | `null` | Minimal wählbares Datum |
+| `maxDate` | String\|Date | `null` | Maximal wählbares Datum |
+| `disable` | Array | `[]` | Zu deaktivierende Daten |
+| `enable` | Array | `[]` | Nur diese Daten aktivieren (alle anderen deaktiviert) |
+| `weekNumbers` | Boolean | `false` | Kalenderwochen anzeigen |
+
+### Zeit-Optionen
+
+| Option | Typ | Standard | Beschreibung |
+|--------|-----|----------|--------------|
+| `enableTime` | Boolean | `false` | Zeit-Auswahl aktivieren |
+| `enableSeconds` | Boolean | `false` | Sekunden-Auswahl aktivieren |
+| `time_24hr` | Boolean | `false` | 24-Stunden Format (sonst AM/PM) |
+| `hourIncrement` | Number | `1` | Schrittweite für Stunden |
+| `minuteIncrement` | Number | `5` | Schrittweite für Minuten |
+| `defaultHour` | Number | `12` | Standard-Stunde bei leerem Input |
+| `defaultMinute` | Number | `0` | Standard-Minute bei leerem Input |
+| `minTime` | String\|Date | `null` | Minimal wählbare Zeit |
+| `maxTime` | String\|Date | `null` | Maximal wählbare Zeit |
+
+### Anzeige-Optionen
+
+| Option | Typ | Standard | Beschreibung |
+|--------|-----|----------|--------------|
+| `inline` | Boolean | `false` | Inline-Anzeige |
+| `static` | Boolean | `false` | Statische Positionierung |
+| `position` | String | `"auto"` | Position: `"auto"`, `"above"`, `"below"`, `"auto center"`, etc. |
+| `appendTo` | HTMLElement | `null` | Element, an das der Kalender angehängt wird |
+| `showMonths` | Number | `1` | Anzahl der anzuzeigenden Monate |
+| `animate` | Boolean | `true` | Animationen aktivieren |
+
+### Input-Optionen
+
+| Option | Typ | Standard | Beschreibung |
+|--------|-----|----------|--------------|
+| `allowInput` | Boolean | `false` | Direkte Texteingabe erlauben |
+| `clickOpens` | Boolean | `true` | Öffnen beim Klick auf Input |
+| `closeOnSelect` | Boolean | `true` | Schließen nach Auswahl |
+| `wrap` | Boolean | `false` | Wrapper-Modus für externe Trigger-Elemente |
+| `altInput` | Boolean | `false` | Alternative Input-Anzeige für bessere Lesbarkeit |
+| `altFormat` | String | `"F j, Y"` | Format für alternativen Input |
+
+### Lokalisierung
+
+| Option | Typ | Standard | Beschreibung |
+|--------|-----|----------|--------------|
+| `locale` | String\|Object | `"default"` | Sprache (z.B. `"de"`, `"fr"`, `"es"`) |
+| `ariaDateFormat` | String | `"F j, Y"` | Format für ARIA-Labels |
+
+### Event Hooks
+
+| Hook | Parameter | Beschreibung |
+|------|-----------|--------------|
+| `onChange` | `(selectedDates, dateStr, instance)` | Wird bei Datums-Änderung aufgerufen |
+| `onOpen` | `(selectedDates, dateStr, instance)` | Wird beim Öffnen des Kalenders aufgerufen |
+| `onClose` | `(selectedDates, dateStr, instance)` | Wird beim Schließen aufgerufen |
+| `onReady` | `(selectedDates, dateStr, instance)` | Wird nach Initialisierung aufgerufen |
+| `onMonthChange` | `(selectedDates, dateStr, instance)` | Wird bei Monatswechsel aufgerufen |
+| `onYearChange` | `(selectedDates, dateStr, instance)` | Wird bei Jahreswechsel aufgerufen |
+| `onValueUpdate` | `(selectedDates, dateStr, instance)` | Wird bei jeder Wert-Aktualisierung aufgerufen |
+
+### Beispiel mit Hooks
+
+```javascript
+pickit("#date", {
+  onChange: function(selectedDates, dateStr, instance) {
+    console.log("Neues Datum:", dateStr);
+  },
+  onOpen: function(selectedDates, dateStr, instance) {
+    console.log("Kalender geöffnet");
+  },
+  onClose: function(selectedDates, dateStr, instance) {
+    console.log("Kalender geschlossen");
   }
 });
 ```
 
-### Features
+### Instanz-Methoden
 
-- **Modern Formats**: HEX, RGB, HSL with optional alpha channel
-- **Preset Colors**: Quick access to brand colors or common palettes
-- **Keyboard Navigation**: Full control with arrow keys
-- **Inline or Popup**: Flexible display modes
-- **Dark Mode**: Automatic dark mode support
+Nach der Initialisierung stehen folgende Methoden zur Verfügung:
 
-## Enhanced Accessibility Features (New in Pickit)
+```javascript
+const picker = pickit("#date");
 
-### Date & Time Picker
+// Datum setzen
+picker.setDate("2026-01-15");
+picker.setDate(new Date());
+picker.setDate(["2026-01-15", "2026-01-20"]); // Bei mode: "range"
 
-### 1. **ARIA Grid Structure**
-- Proper `role="grid"` for calendar layout
-- `role="gridcell"` for individual date cells
-- `role="row"` for week rows
+// Datum leeren
+picker.clear();
 
-### 2. **Dynamic State Announcements**
-- Live regions for month/year changes
-- Selected date announcements
-- Range selection feedback
+// Kalender öffnen/schließen
+picker.open();
+picker.close();
 
-### 3. **Extended Keyboard Navigation**
-- `Home/End` - Jump to first/last day of month
-- `Page Up/Down` - Navigate months
-- `Shift + Page Up/Down` - Navigate years
-- `Tab/Shift+Tab` - Logical focus order
-- `t` - Jump to today (when enabled)
+// Kalender umschalten
+picker.toggle();
 
-### 4. **Enhanced ARIA Attributes**
-- `aria-expanded` on calendar container
-- `aria-selected` on selected dates
-- `aria-disabled` on disabled dates
-- `aria-live` regions for dynamic updates
+// Monat/Jahr ändern
+picker.changeMonth(1);  // Einen Monat vorwärts
+picker.changeMonth(-2); // Zwei Monate zurück
+picker.changeYear(2027);
 
-### 5. **Accessibility Preferences**
-- Respects `prefers-reduced-motion`
-- High contrast mode support
-- Focus trap in modal mode
+// Aktuelle Auswahl abrufen
+const selectedDates = picker.selectedDates;
+const dateString = picker.input.value;
 
-## Motivation
+// Picker zerstören
+picker.destroy();
 
-Almost every large SPA or project involves date and time input. Browser's native implementations are inconsistent and limited in functionality. Most other libraries require you to pull in heavy dependencies like jQuery, Bootstrap, and moment.js. Additionally, many pickers lack proper accessibility support.
+// Neu initialisieren mit neuen Optionen
+picker.set("minDate", "2026-02-01");
+picker.set("maxDate", "2026-12-31");
+```
 
-Pickit aims to be:
-- ✨ **Beautiful** out of the box
-- 🚀 **Dependency-free** (no bloated bundles)
-- ♿ **Fully accessible** (WCAG 2.1 AA+)
-- 💪 **Powerful** and extensible
-- 📦 **Lightweight** (fraction of the size of other libraries)
-- 🎨 **Multi-purpose** (dates, times, and colors)
+## 🔌 Plugins
 
-## Feature Overview
+Pickit unterstützt mehrere Plugins zur Funktionserweiterung:
 
-- Dependency-free (no bloated bundles)
-- Simple, polished UX
-- **Date + time picker** with full accessibility
-- **Color picker** with keyboard navigation
-- Range selections
-- Ability to select multiple dates
-- Can be used as just a time picker
-- Display dates in a human-friendly format
-- Easily disable specific dates, date ranges, or any date using arbitrary logic
-- Week numbers
-- 51 locales
-- 10 beautiful themes (incl. dark, material, UIKit, and glassmorphism)
-- Numerous plugins
-- Libraries available for React, Angular, Vue, Ember, and more
+### Confirm Date Plugin
 
-![Pickit Date Picker](https://user-images.githubusercontent.com/11352152/36033089-f37dc1d0-0d7d-11e8-8ec4-c7a56d1ff92e.png)
+Fügt einen Bestätigungs-Button hinzu:
 
-## Documentation & Demos
+```javascript
+import confirmDatePlugin from "pickit/dist/plugins/confirmDate/confirmDate.js";
 
-Full documentation: https://flatpickr.js.org (flatpickr docs - Pickit maintains API compatibility)
+pickit("#date", {
+  plugins: [
+    confirmDatePlugin({
+      confirmText: "OK",
+      showAlways: false,
+      theme: "light"
+    })
+  ]
+});
+```
 
-## Compatibility
+### Month Select Plugin
 
-IE9 and up, Edge, iOS Safari 6+, Chrome 8+, Firefox 6+
+Monatswähler im Dropdown-Format:
 
-### Browser-Specific Enhancements
+```javascript
+import monthSelectPlugin from "pickit/dist/plugins/monthSelect/index.js";
 
-Pickit includes specific fixes and optimizations for various browsers:
+pickit("#date", {
+  plugins: [monthSelectPlugin({
+    shorthand: true,
+    dateFormat: "F Y"
+  })]
+});
+```
 
-- **Safari**: Enhanced select dropdown rendering with proper padding and appearance fixes
-- **Cross-browser**: Consistent styling across all modern browsers with vendor prefixes
-- **Mobile**: Touch-optimized interactions for iOS and Android
+### Week Select Plugin
 
-## Legacy Accessibility (from flatpickr)
+Ermöglicht die Auswahl ganzer Wochen:
 
-flatpickr was already designed with accessibility in mind. Pickit builds upon this foundation:
+```javascript
+import weekSelectPlugin from "pickit/dist/plugins/weekSelect/weekSelect.js";
 
-### ARIA Attributes
+pickit("#date", {
+  plugins: [weekSelectPlugin({})]
+});
+```
 
-All interactive elements include proper ARIA roles and labels:
+### Range Plugin
 
-- **Calendar container**: `role="dialog"` with localized `aria-label`
-- **Navigation buttons**: `role="button"` with localized previous/next month labels
-- **Date cells**: Individual `aria-label` for each day with formatted date
-- **Form inputs**: Year, month, hour, and minute inputs with descriptive labels
-- **Plugins**: confirmDate and monthSelect plugins include full ARIA support
+Erweiterte Bereichsauswahl:
 
-### Keyboard Navigation
+```javascript
+import rangePlugin from "pickit/dist/plugins/rangePlugin.js";
 
-- **Tab**: Navigate between interactive elements
-- **Enter/Space**: Activate buttons and select dates
-- **Arrow Keys**: Navigate between days in the calendar
-- **Ctrl + Arrow Left/Right**: Change month
-- **Ctrl + Arrow Up/Down**: Change year
-- **Escape**: Close the calendar
+pickit("#date", {
+  mode: "range",
+  plugins: [rangePlugin({ input: "#endDate" })]
+});
+```
 
-### Localized ARIA Labels
+## 🌐 Internationalisierung
 
-All ARIA labels are fully localizable. Complete translations available in:
+Pickit unterstützt 67 Sprachen. Verfügbare Lokalisierungen:
 
-- **English** (default)
-- **German** (Deutsch)
-- **French** (Français)
-- **Spanish** (Español)
-- **Italian** (Italiano)
-- **Dutch** (Nederlands)
-- **Portuguese** (Português)
-- **Russian** (Русский)
-- **Japanese** (日本語)
-- **Chinese** (中文)
-- ...and 41+ other languages ready to be extended
+`ar`, `ar-dz`, `at`, `az`, `be`, `bg`, `bn`, `bs`, `cat`, `ckb`, `cs`, `cy`, `da`, `de`, `default`, `en`, `eo`, `es`, `et`, `fa`, `fi`, `fo`, `fr`, `ga`, `gr`, `he`, `hi`, `hr`, `hu`, `id`, `index.d`, `is`, `it`, `ja`, `ka`, `km`, `ko`, `kz`, `lt`, `lv`, `mk`, `mn`, `ms`, `my`, `nl`, `nn`, `no`, `pa`, `pl`, `pt`, `ro`, `ru`, `si`, `sk`, `sl`, `sq`, `sr-cyr`, `sr`, `sv`, `th`, `tr`, `uk`, `uz-latn`, `uz`, `vn`, `zh-tw`, `zh`
 
-**English:**
-- Date picker: "Date picker"
-- Previous month: "Previous month"
-- Next month: "Next month"
-- Confirm: "Confirm date selection"
-- Year: "Year"
-- Month: "Month"
-
-**German:**
-- Date picker: "Datumsauswahl"
-- Previous month: "Vorheriger Monat"
-- Next month: "Nächster Monat"
-- Confirm: "Datumswahl bestätigen"
-- Year: "Jahr"
-- Month: "Monat"
-
-**French:**
-- Date picker: "Sélecteur de date"
-- Previous month: "Mois précédent"
-- Next month: "Mois suivant"
-- Confirm: "Confirmer la sélection de date"
-
-To use a localized version, simply set the locale:
+### Verwendung
 
 ```javascript
 import pickit from "pickit";
 import { German } from "pickit/dist/l10n/de.js";
 
-pickit("#myDatePicker", {
+pickit("#date", {
   locale: German
 });
 ```
 
-All ARIA labels will automatically use the selected locale.
-
-## Building & Development
-
-For information about building Pickit from source and contributing, see [BUILD.md](BUILD.md).
-
-## Migration from flatpickr
-
-Pickit maintains 100% API compatibility with flatpickr. Simply replace:
+### Eigene Lokalisierung
 
 ```javascript
-// Old
-import flatpickr from "flatpickr";
-flatpickr("#myInput");
-
-// New
-import pickit from "pickit";
-pickit("#myInput");
+pickit("#date", {
+  locale: {
+    firstDayOfWeek: 1, // Montag
+    weekdays: {
+      shorthand: ["So", "Mo", "Di", "Mi", "Do", "Fr", "Sa"],
+      longhand: [
+        "Sonntag", "Montag", "Dienstag", "Mittwoch",
+        "Donnerstag", "Freitag", "Samstag"
+      ]
+    },
+    months: {
+      shorthand: [
+        "Jan", "Feb", "Mär", "Apr", "Mai", "Jun",
+        "Jul", "Aug", "Sep", "Okt", "Nov", "Dez"
+      ],
+      longhand: [
+        "Januar", "Februar", "März", "April", "Mai", "Juni",
+        "Juli", "August", "September", "Oktober", "November", "Dezember"
+      ]
+    },
+    rangeSeparator: " bis ",
+    weekAbbreviation: "KW",
+    scrollTitle: "Scrollen zum Ändern",
+    toggleTitle: "Zum Umschalten klicken"
+  }
+});
 ```
 
-All options, methods, and hooks remain the same. Your existing flatpickr code will work without modifications.
+## ♿ Barrierefreiheit
 
-## Credits & License
+Pickit legt großen Wert auf Barrierefreiheit:
 
-Pickit is a fork of [flatpickr](https://github.com/flatpickr/flatpickr) by Gregory.
+### Tastaturnavigation (Datum Picker)
 
-Original flatpickr: Copyright © 2023 Gregory  
-Pickit enhancements: Copyright © 2026
+- **Tab / Shift+Tab**: Navigation zwischen Elementen
+- **Pfeiltasten**: Navigation zwischen Tagen
+- **Enter / Space**: Datum auswählen
+- **Escape**: Kalender schließen
+- **Page Up / Page Down**: Monat wechseln
+- **Shift + Page Up / Page Down**: Jahr wechseln
+- **Home / End**: Zum ersten/letzten Tag des Monats springen
+- **t**: Zu "Heute" springen (wenn aktiviert)
 
-Licensed under MIT License.
+### Screen Reader Unterstützung
 
-## Framework Integrations
+- Vollständige ARIA-Labels für alle interaktiven Elemente
+- Live-Regionen für dynamische Änderungen
+- Klare Ansagen bei Monats-/Jahreswechsel
+- Lokalisierte ARIA-Labels in 67 Sprachen
 
-* [angular2+-flatpickr addon](https://github.com/mezoistvan/ng2-flatpickr)
-* [angularJS-flatpickr addon](https://www.npmjs.com/package/angular-flatpickr)
-* [ember-flatpickr addon](https://www.npmjs.com/package/ember-flatpickr)
-* [Preact Component](https://github.com/molnarmark/preact-flatpickr)
-* [React Component](https://github.com/coderhaoxin/react-flatpickr)
-* [Stimulus.js Controller](https://github.com/adrienpoly/stimulus-flatpickr)
-* [Svelte Component](https://github.com/jacobmischka/svelte-flatpickr)
-* [vue-flatpickr component](https://github.com/ankurk91/vue-flatpickr-component)
-* [lit-flatpickr component](https://github.com/Matsuuu/lit-flatpickr)
+### Visuelle Barrierefreiheit
 
-_These libraries were created for flatpickr and should work with Pickit due to API compatibility. Native Pickit integrations may follow in future releases._
+- Hohe Kontrastverhältnisse (WCAG AA konform)
+- Klare Focus-Indikatoren
+- Unterstützung für `prefers-reduced-motion`
+- Unterstützung für `prefers-contrast: high`
+- Automatischer Dark Mode
+
+## 🔧 Datumsformatierung
+
+Pickit verwendet eine flexible Formatierungssyntax:
+
+| Token | Ausgabe | Beispiel |
+|-------|---------|----------|
+| `d` | Tag mit führender Null | 01 bis 31 |
+| `D` | Wochentagskürzel | Mo |
+| `j` | Tag ohne führende Null | 1 bis 31 |
+| `l` | Wochentag ausgeschrieben | Montag |
+| `w` | Wochentag als Zahl | 0 (Sonntag) bis 6 |
+| `W` | ISO-8601 Kalenderwoche | 1 bis 53 |
+| `F` | Monat ausgeschrieben | Januar |
+| `m` | Monat mit führender Null | 01 bis 12 |
+| `M` | Monatskürzel | Jan |
+| `n` | Monat ohne führende Null | 1 bis 12 |
+| `Y` | Vierstelliges Jahr | 2026 |
+| `y` | Zweistelliges Jahr | 26 |
+| `H` | Stunde (24h) mit führender Null | 00 bis 23 |
+| `h` | Stunde (12h) mit führender Null | 01 bis 12 |
+| `G` | Stunde (24h) ohne führende Null | 0 bis 23 |
+| `i` | Minute mit führender Null | 00 bis 59 |
+| `S` | Sekunde mit führender Null | 00 bis 59 |
+| `K` | AM/PM | AM oder PM |
+
+### Beispiele
+
+```javascript
+// Deutsches Format: 15.01.2026
+dateFormat: "d.m.Y"
+
+// ISO Format: 2026-01-15
+dateFormat: "Y-m-d"
+
+// Ausgeschrieben: Mittwoch, 15. Januar 2026
+dateFormat: "l, d. F Y"
+
+// Mit Zeit: 15.01.2026 14:30
+dateFormat: "d.m.Y H:i"
+
+// US Format: 01/15/2026 2:30 PM
+dateFormat: "m/d/Y h:i K"
+```
+
+## 🌐 Browser-Unterstützung
+
+- Chrome / Edge (Chromium): Letzte 2 Versionen
+- Firefox: Letzte 2 Versionen
+- Safari: 12+
+- iOS Safari: 12+
+- Android Chrome: Letzte 2 Versionen
+
+## 📄 Lizenz
+
+MIT License
+
+Copyright © 2026 - Pickit (Fork von flatpickr)  
+Original flatpickr: Copyright © 2023 Gregory
+
+## 🙏 Danksagung
+
+Pickit ist ein Fork von [flatpickr](https://github.com/flatpickr/flatpickr) von Gregory. Vielen Dank für die hervorragende Grundlage!
+
+## 🔗 Links
+
+- [GitHub Repository](https://github.com/skerbis/pickit)
+- [Custom Theme Dokumentation](CUSTOM_THEME.md)
+- [Build-Anleitung](BUILD.md)

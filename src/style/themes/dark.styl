@@ -1,18 +1,55 @@
-$calendarBackground = #3f4458
-$calendarBorderColor = darken(#3f4458, 50%)
+// Dark Theme - Always dark, regardless of system preference
 
-$monthForeground = #fff
-$monthBackground = #3f4458
+$calendarBackground = #1f2937
+$calendarBorderColor = #374151
+$monthForeground = #f9fafb
+$monthBackground = #111827
+$weekdaysBackground = #1f2937
+$weekdaysForeground = #9ca3af
+$dayForeground = #e5e7eb
+$dayHoverBackground = #374151
+$todayColor = #60a5fa
+$today_fg_color = #ffffff
+$selectedDayBackground = #3b82f6
+$selectedDayForeground = #ffffff
+$disabled_day_color = #6b7280
+$noCalendarBorder = true
 
-$weekdaysBackground = transparent
-$weekdaysForeground = #fff
+@require "../pickit"
 
-$dayForeground = alpha(white, 0.95)
-$dayHoverBackground = lighten($calendarBackground, 25%)
-
-$todayColor = #eee
-$today_fg_color = #3f4458
-
-$selectedDayBackground = #80CBC4
-
-@require "../flatpickr"
+// Dark theme - always dark
+.flatpickr-calendar
+	--pickit-bg: #1f2937
+	--pickit-text: #f3f4f6
+	--pickit-border: #374151
+	--pickit-border-radius: 8px
+	--pickit-shadow: 0 4px 12px rgba(0, 0, 0, 0.5)
+	
+	--pickit-month-bg: #111827
+	--pickit-month-text: #f9fafb
+	--pickit-arrow-hover: #60a5fa
+	
+	--pickit-weekdays-bg: #1f2937
+	--pickit-weekdays-text: #9ca3af
+	
+	--pickit-day-text: #e5e7eb
+	--pickit-day-hover-bg: #374151
+	--pickit-day-disabled: #6b7280
+	
+	--pickit-today-bg: #1e3a8a
+	--pickit-today-text: #ffffff
+	--pickit-today-border: #60a5fa
+	
+	--pickit-selected-bg: #3b82f6
+	--pickit-selected-text: #ffffff
+	
+	--pickit-range-bg: #1e3a8a
+	--pickit-range-text: #bfdbfe
+	
+	--pickit-time-bg: #111827
+	--pickit-time-border: #374151
+	--pickit-time-text: #f9fafb
+	
+	background var(--pickit-bg)
+	border 1px solid var(--pickit-border)
+	box-shadow var(--pickit-shadow)
