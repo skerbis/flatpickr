@@ -12,6 +12,7 @@ import * as rollup from "rollup";
 
 import * as path from "path";
 import rollupConfig, { getConfig } from "./config/rollup";
+import colorpickerConfig from "./config/rollup.colorpicker";
 
 import * as pkg from "./package.json";
 const version = `/* flatpickr v${pkg.version},, @license MIT */`;
@@ -21,6 +22,7 @@ let DEV_MODE = process.argv.indexOf("--dev") > -1;
 const paths = {
   themes: "./src/style/themes/*.styl",
   style: "./src/style/flatpickr.styl",
+  colorpicker: "./src/colorpicker/colorpicker.styl",
   plugins: "./src/plugins",
   l10n: "./src/l10n",
 };
@@ -70,6 +72,28 @@ async function uglify(src: string) {
 async function buildFlatpickrJs() {
   const bundle = await rollup.rollup(rollupConfig);
   return bundle.write(rollupConfig.output as rollup.OutputOptions);
+}
+
+async function buildColorPicker() {
+  try {
+    const bundle = await rollup.rollup(colorpickerConfig);
+    await bundle.write(colorpickerConfig.output as rollup.OutputOptions);
+
+    const transpiled = await readFileAsync("./dist/colorpicker.js");
+    await fs.writeFile("./dist/colorpicker.min.js", await uglify(transpiled));
+
+    // Build colorpicker styles
+    const src = await readFileAsync(paths.colorpicker);
+    await Promise.all([
+      fs.writeFile("./dist/colorpicker.css", await transpileStyle(src)),
+      fs.writeFile(
+        "./dist/colorpicker.min.css",
+        await transpileStyle(src, true)
+      ),
+    ]);
+  } catch (e) {
+    logErr(e);
+  }
 }
 
 async function buildScripts() {
@@ -200,6 +224,7 @@ async function buildThemes() {
 
 function setupWatchers() {
   watch("./src/plugins", buildExtras("plugins"));
+  watch("./src/colorpicker", buildColorPicker);
   watch("./src/style/*.styl", () => {
     buildStyle();
     buildThemes();
@@ -257,6 +282,7 @@ async function start() {
   buildScripts();
   buildStyle();
   buildThemes();
+  buildColorPicker();
   buildExtras("l10n")();
   buildExtras("plugins")();
 }

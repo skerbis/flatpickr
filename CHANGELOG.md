@@ -9,7 +9,19 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### 🎉 Initial Release - Forked from flatpickr
 
-Pickit is an accessibility-enhanced fork of flatpickr 4.6.x with full WCAG 2.1 AA compliance.
+Pickit is an accessibility-enhanced fork of flatpickr 4.6.x with full WCAG 2.1 AA compliance, expanded with a modern color picker component.
+
+### ✨ Added - Color Picker Component (NEW)
+
+- **Modern Color Picker**: Standalone, accessible color picker with HSL/RGB/HEX support
+- **Multiple Formats**: Support for HEX, RGB, HSL with optional alpha channel
+- **Preset Colors**: Quick access to brand colors or common color palettes
+- **Keyboard Navigation**: Full control with arrow keys (Shift for larger steps)
+- **Inline or Popup Mode**: Flexible display as dropdown or permanent widget
+- **Dark Mode**: Automatic dark mode support via `prefers-color-scheme`
+- **Accessibility**: Full WCAG 2.1 AA compliance with ARIA labels and keyboard support
+- **Lightweight**: No dependencies, ~10KB gzipped
+- **Color Conversion**: Automatic parsing of all common color formats
 
 ### ✨ Added - Accessibility Enhancements (Date/Time Picker)
 

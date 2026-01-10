@@ -6,16 +6,17 @@
 
 ## Why Pickit?
 
-Pickit is more than just a date picker - it's an accessibility-first date and time picker:
+Pickit is more than just a date picker - it's a complete collection of accessible pickers:
 
 - 📅 **Date & Time Picker** - Enhanced version of flatpickr with full accessibility
+- 🎨 **Color Picker** - Modern color picker with HSL/RGB/HEX support and presets
 - ✅ **WCAG 2.1 AA compliant** with comprehensive ARIA support
 - ♿ **Screen reader optimized** with live regions and proper announcements
 - ⌨️ **Full keyboard navigation** for all picker types
 - 🎯 **Improved focus management** and visual indicators
 - 🎨 **Reduced motion support** for users with vestibular disorders
 - 🔍 **High contrast mode** support
-- 🌐 **51+ locales** with comprehensive ARIA label translations
+- 🌐 **51+ locales** with comprehensive ARIA label translations (date picker)
 
 ## Quick Start
 
@@ -52,6 +53,15 @@ pickit("#datepicker", {
   enableTime: true,
   dateFormat: "Y-m-d H:i",
 });
+
+// Color picker
+import colorpicker from "pickit/colorpicker";
+
+colorpicker("#colorInput", {
+  format: "hex",
+  showAlpha: false,
+  presetColors: ["#3b82f6", "#10b981", "#f59e0b"]
+});
 ```
 
 ### With Locale
@@ -64,6 +74,37 @@ pickit("#datepicker", {
   locale: German
 });
 ```
+
+## 🎨 Color Picker
+
+The color picker component provides a modern, accessible interface for color selection with support for multiple formats.
+
+[📖 Full ColorPicker Documentation](src/colorpicker/README.md) | [🎯 Live Demo](demo-colorpicker.html)
+
+### Quick Example
+
+```javascript
+import colorpicker from "pickit/colorpicker";
+
+const picker = colorpicker("#colorInput", {
+  format: "hex",              // 'hex', 'rgb', or 'hsl'
+  showAlpha: false,           // Enable alpha channel
+  presetColors: [             // Quick access colors
+    "#3b82f6", "#10b981", "#f59e0b"
+  ],
+  onChange: (color) => {
+    console.log("Selected:", color);
+  }
+});
+```
+
+### Features
+
+- **Modern Formats**: HEX, RGB, HSL with optional alpha channel
+- **Preset Colors**: Quick access to brand colors or common palettes
+- **Keyboard Navigation**: Full control with arrow keys
+- **Inline or Popup**: Flexible display modes
+- **Dark Mode**: Automatic dark mode support
 
 ## Enhanced Accessibility Features (New in Pickit)
 
