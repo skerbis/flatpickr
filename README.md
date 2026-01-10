@@ -545,6 +545,6 @@ Pickit ist ein Fork von [flatpickr](https://github.com/flatpickr/flatpickr) von 
 ## 🔗 Links
 
 - [GitHub Repository](https://github.com/skerbis/pickit)
-- [npm Package](https://www.npmjs.com/package/pickit)
+- [npm Package](https://www.npmjs.com/package/pickit-color?activeTab=readme)
 - [Custom Theme Dokumentation](CUSTOM_THEME.md)
 - [Build-Anleitung](BUILD.md)
