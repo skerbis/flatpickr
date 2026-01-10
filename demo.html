@@ -6,7 +6,7 @@
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <title>Pickit - Accessible Feature Demo</title>
 
-  <link rel="stylesheet" href="dist/pickit.css?v=1.0.0-beta1" id="main-theme">
+  <link rel="stylesheet" href="dist/themes/auto.css?v=1.0.0-beta1" id="main-theme">
   <link rel="stylesheet" href="dist/ie.css">
   <link rel="stylesheet" href="dist/plugins/confirmDate/confirmDate.css">
   <link rel="stylesheet" href="dist/plugins/monthSelect/style.css">
@@ -167,6 +167,97 @@
       text-transform: uppercase;
       margin-left: 8px;
     }
+
+    /* Dark Mode Support */
+    @media (prefers-color-scheme: dark) {
+      body {
+        background: #111827;
+        color: #f3f4f6;
+      }
+
+      h1 {
+        color: #f9fafb;
+      }
+
+      .subtitle {
+        color: #9ca3af;
+      }
+
+      .theme-switcher {
+        background: #1f2937;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.3);
+      }
+
+      .theme-switcher h2 {
+        color: #f9fafb;
+      }
+
+      .theme-btn {
+        background: #374151;
+        border-color: #4b5563;
+        color: #f3f4f6;
+      }
+
+      .theme-btn:hover {
+        border-color: #60a5fa;
+        background: #1e3a8a;
+      }
+
+      .theme-btn.active {
+        background: #3b82f6;
+        color: white;
+        border-color: #3b82f6;
+      }
+
+      .demo-section {
+        background: #1f2937;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.3);
+      }
+
+      .demo-section h2 {
+        color: #f9fafb;
+        border-bottom-color: #3b82f6;
+      }
+
+      .demo-item label {
+        color: #d1d5db;
+      }
+
+      .demo-item input {
+        background: #374151;
+        border-color: #4b5563;
+        color: #f3f4f6;
+      }
+
+      .demo-item input:focus {
+        border-color: #60a5fa;
+        background: #1f2937;
+      }
+
+      /* Flatpickr time inputs inside calendar should use their theme colors */
+      .flatpickr-calendar .flatpickr-time input {
+        background: var(--pickit-time-bg, #f9fafb) !important;
+        border-color: var(--pickit-time-border, #e5e7eb) !important;
+        color: var(--pickit-time-text, #1f2937) !important;
+      }
+
+      .code-example {
+        background: #0f172a;
+        border-color: #1e293b;
+      }
+
+      .code-example code {
+        color: #e2e8f0;
+      }
+
+      .feature-description {
+        color: #9ca3af;
+      }
+
+      .badge {
+        background: #3b82f6;
+      }
+    }
   </style>
 </head>
 <body>
@@ -176,41 +267,17 @@
 
     <!-- Theme Switcher -->
     <div class="theme-switcher">
-      <h2>🎨 Theme Switcher</h2>
+      <h2>🎨 Theme Auswahl</h2>
+      <p style="font-size: 14px; color: #6b7280; margin-bottom: 15px;">
+        Alle Themes basieren auf dem gleichen Base-System und überschreiben nur CSS-Variablen. "Auto" reagiert auf System Dark Mode.
+      </p>
       <div class="theme-buttons">
-        <button class="theme-btn active" data-theme="default">Default</button>
-        <button class="theme-btn" data-theme="modern">Modern ✨</button>
-        <button class="theme-btn" data-theme="dark">Dark</button>
-        <button class="theme-btn" data-theme="light">Light</button>
-        <button class="theme-btn" data-theme="material_blue">Material Blue</button>
-        <button class="theme-btn" data-theme="material_green">Material Green</button>
-        <button class="theme-btn" data-theme="material_orange">Material Orange</button>
-        <button class="theme-btn" data-theme="material_red">Material Red</button>
-        <button class="theme-btn" data-theme="confetti">Confetti</button>
-        <button class="theme-btn" data-theme="glassmorphism">Glassmorphism</button>
-        <button class="theme-btn" data-theme="uikit">UIKit</button>
-        <button class="theme-btn" data-theme="custom">Custom (CSS Variables) 🎨</button>
-      </div>
-      <div id="custom-theme-info" style="display: none; margin-top: 15px; padding: 15px; background: #f8f9fa; border-radius: 6px; border-left: 4px solid #2563eb;">
-        <strong>♿ Accessible Custom Theme with CSS Variables</strong>
-        <p style="margin: 8px 0; font-size: 13px; color: #666;">
-          The custom theme is neutral by default with full accessibility support (dark mode, high contrast, reduced motion). 
-          Below is an example pink customization using CSS variables - you can customize it to any color scheme you want!
-        </p>
-        <code style="display: block; background: white; padding: 10px; border-radius: 4px; font-size: 12px; overflow-x: auto;">
-          /* Accessibility features built-in */<br>
-          ✓ Auto dark mode (prefers-color-scheme)<br>
-          ✓ High contrast support (prefers-contrast)<br>
-          ✓ Reduced motion support (prefers-reduced-motion)<br>
-          <br>
-          /* Customize with CSS variables */<br>
-          --fp-bg, --fp-border-color, --fp-border-radius,<br>
-          --fp-month-bg, --fp-selected-bg, --fp-today-color, etc.
-        </code>
-        <div id="pink-example" style="margin-top: 10px; padding: 10px; background: #fff; border-radius: 4px; border: 1px solid #e91e63;">
-          <strong style="color: #e91e63;">💅 Pink Example (Applied via CSS variables)</strong>
-          <p style="margin: 5px 0; font-size: 12px; color: #666;">The pink styling you see is applied dynamically with CSS variables. Check the code to see how!</p>
-        </div>
+        <button class="theme-btn" data-theme="base">Base</button>
+        <button class="theme-btn active" data-theme="auto">Auto (Prefers Dark) 🌓</button>
+        <button class="theme-btn" data-theme="blue">Blue</button>
+        <button class="theme-btn" data-theme="green">Green</button>
+        <button class="theme-btn" data-theme="purple">Purple</button>
+        <button class="theme-btn" data-theme="dark">Dark 🌙</button>
       </div>
     </div>
 
@@ -590,79 +657,6 @@ flatpickr("#german-range", {
     // Theme switcher functionality
     var themeButtons = document.querySelectorAll('.theme-btn');
     var mainThemeLink = document.getElementById('main-theme');
-    var customThemeInfo = document.getElementById('custom-theme-info');
-    
-    // Function to apply pink customization to custom theme
-    function applyPinkCustomization() {
-      var style = document.getElementById('custom-pink-style');
-      if (!style) {
-        style = document.createElement('style');
-        style.id = 'custom-pink-style';
-        document.head.appendChild(style);
-      }
-      style.textContent = `
-        .flatpickr-calendar {
-          --fp-border-color: #e91e63;
-          --fp-border-radius: 12px;
-          --fp-shadow: 0 10px 40px rgba(233, 30, 99, 0.3), 0 2px 8px rgba(0, 0, 0, 0.1);
-          
-          --fp-month-bg: #e91e63;
-          --fp-month-fg: #ffffff;
-          --fp-arrow-hover-color: #fce4ec;
-          
-          --fp-weekdays-bg: #f48fb1;
-          --fp-weekdays-fg: #ffffff;
-          
-          --fp-day-hover-bg: #fce4ec;
-          --fp-day-border-radius: 8px;
-          
-          --fp-today-color: #e91e63;
-          --fp-today-bg: rgba(233, 30, 99, 0.1);
-          --fp-today-hover-bg: rgba(233, 30, 99, 0.2);
-          --fp-today-hover-shadow: 0 2px 8px rgba(233, 30, 99, 0.4);
-          
-          --fp-selected-bg: #e91e63;
-          --fp-selected-shadow: 0 4px 12px rgba(233, 30, 99, 0.5);
-          --fp-selected-hover-bg: #c2185b;
-          --fp-selected-hover-shadow: 0 6px 16px rgba(233, 30, 99, 0.6);
-          
-          --fp-range-bg: rgba(233, 30, 99, 0.15);
-          
-          --fp-time-border-color: #f48fb1;
-          --fp-time-bg: #fce4ec;
-          --fp-time-input-border: #e91e63;
-          --fp-time-input-hover-border: #c2185b;
-        }
-        
-        @media (prefers-color-scheme: dark) {
-          .flatpickr-calendar {
-            --fp-bg: #1f2937;
-            --fp-border-color: #e91e63;
-            --fp-month-bg: #be185d;
-            --fp-month-fg: #ffffff;
-            --fp-weekdays-bg: #831843;
-            --fp-weekdays-fg: #fce4ec;
-            --fp-day-fg: #fce4ec;
-            --fp-day-bg: #1f2937;
-            --fp-day-hover-bg: #831843;
-            --fp-today-color: #f48fb1;
-            --fp-today-bg: rgba(244, 143, 177, 0.2);
-            --fp-selected-bg: #e91e63;
-            --fp-time-border-color: #831843;
-            --fp-time-bg: #1f2937;
-            --fp-time-input-bg: #111827;
-            --fp-time-input-border: #831843;
-          }
-        }
-      `;
-    }
-    
-    function removePinkCustomization() {
-      var style = document.getElementById('custom-pink-style');
-      if (style) {
-        style.remove();
-      }
-    }
     
     themeButtons.forEach(function(btn) {
       btn.addEventListener('click', function() {
@@ -672,17 +666,8 @@ flatpickr("#german-range", {
         themeButtons.forEach(function(b) { b.classList.remove('active'); });
         this.classList.add('active');
         
-        // Show/hide custom theme info and apply pink example
-        if (theme === 'custom') {
-          customThemeInfo.style.display = 'block';
-          applyPinkCustomization();
-        } else {
-          customThemeInfo.style.display = 'none';
-          removePinkCustomization();
-        }
-        
         // Change theme
-        if (theme === 'default') {
+        if (theme === 'base') {
           mainThemeLink.href = 'dist/pickit.css';
         } else {
           mainThemeLink.href = 'dist/themes/' + theme + '.css';

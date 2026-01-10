@@ -1,0 +1,92 @@
+// Green Theme - Fresh green color scheme
+
+$calendarBackground = #ffffff
+$calendarBorderColor = #e5e7eb
+$monthForeground = #1f2937
+$monthBackground = #f0fdf4
+$weekdaysBackground = #dcfce7
+$weekdaysForeground = #166534
+$dayForeground = #1f2937
+$dayHoverBackground = #dcfce7
+$todayColor = #22c55e
+$today_fg_color = #166534
+$selectedDayBackground = #22c55e
+$selectedDayForeground = #ffffff
+$disabled_day_color = #9ca3af
+$noCalendarBorder = true
+
+@require "../pickit"
+
+// Override with CSS variables for light mode
+.flatpickr-calendar
+	--pickit-bg: #ffffff
+	--pickit-text: #1f2937
+	--pickit-border: #bbf7d0
+	--pickit-border-radius: 8px
+	--pickit-shadow: 0 4px 12px rgba(34, 197, 94, 0.15), 0 2px 4px rgba(0, 0, 0, 0.1)
+	
+	--pickit-month-bg: #f0fdf4
+	--pickit-month-text: #166534
+	--pickit-arrow-hover: #22c55e
+	
+	--pickit-weekdays-bg: #dcfce7
+	--pickit-weekdays-text: #166534
+	
+	--pickit-day-text: #1f2937
+	--pickit-day-hover-bg: #dcfce7
+	--pickit-day-disabled: #9ca3af
+	
+	--pickit-today-bg: #bbf7d0
+	--pickit-today-text: #166534
+	--pickit-today-border: #22c55e
+	
+	--pickit-selected-bg: #22c55e
+	--pickit-selected-text: #ffffff
+	
+	--pickit-range-bg: #86efac
+	--pickit-range-text: #166534
+	
+	--pickit-time-bg: #f0fdf4
+	--pickit-time-border: #bbf7d0
+	--pickit-time-text: #166534
+	
+	background var(--pickit-bg)
+	border 1px solid var(--pickit-border)
+	box-shadow var(--pickit-shadow)
+
+// Dark mode
+@media (prefers-color-scheme: dark)
+	.flatpickr-calendar
+		--pickit-bg: #1f2937
+		--pickit-text: #f3f4f6
+		--pickit-border: #374151
+		--pickit-shadow: 0 4px 12px rgba(0, 0, 0, 0.4)
+		
+		--pickit-month-bg: #14532d
+		--pickit-month-text: #dcfce7
+		--pickit-arrow-hover: #4ade80
+		
+		--pickit-weekdays-bg: #166534
+		--pickit-weekdays-text: #bbf7d0
+		
+		--pickit-day-text: #e5e7eb
+		--pickit-day-hover-bg: #166534
+		--pickit-day-disabled: #6b7280
+		
+		--pickit-today-bg: #166534
+		--pickit-today-text: #ffffff
+		--pickit-today-border: #4ade80
+		
+		--pickit-selected-bg: #22c55e
+		--pickit-selected-text: #ffffff
+		
+		--pickit-range-bg: #166534
+		--pickit-range-text: #bbf7d0
+		
+		--pickit-time-bg: #14532d
+		--pickit-time-border: #166534
+		--pickit-time-text: #dcfce7
+		
+		background var(--pickit-bg)
+		border-color var(--pickit-border)
+		box-shadow var(--pickit-shadow)

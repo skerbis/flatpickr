@@ -11,6 +11,38 @@
 
 
 .flatpickr-calendar
+  // CSS Variables for theming
+  --pickit-bg: #ffffff
+  --pickit-text: #1f2937
+  --pickit-border: #e5e7eb
+  --pickit-border-radius: 8px
+  --pickit-shadow: 0 4px 6px rgba(0, 0, 0, 0.1)
+  
+  --pickit-month-bg: #f9fafb
+  --pickit-month-text: #1f2937
+  --pickit-arrow-hover: #3b82f6
+  
+  --pickit-weekdays-bg: #f3f4f6
+  --pickit-weekdays-text: #6b7280
+  
+  --pickit-day-text: #1f2937
+  --pickit-day-hover-bg: #f3f4f6
+  --pickit-day-disabled: #9ca3af
+  
+  --pickit-today-bg: #dbeafe
+  --pickit-today-text: #1e40af
+  --pickit-today-border: #3b82f6
+  
+  --pickit-selected-bg: #3b82f6
+  --pickit-selected-text: #ffffff
+  
+  --pickit-range-bg: #93c5fd
+  --pickit-range-text: #1e3a8a
+  
+  --pickit-time-bg: #f9fafb
+  --pickit-time-border: #e5e7eb
+  --pickit-time-text: #1f2937
+  
   background transparent
   opacity 0
   display none
@@ -22,22 +54,22 @@
   border 0
   font-size 14px
   line-height 24px
-  border-radius 5px
+  border-radius var(--pickit-border-radius)
   position absolute
   width $calendarWidth
   box-sizing border-box
   touch-action manipulation
 
   if $noCalendarBorder is defined
-    box-shadow 0 3px 13px alpha(black, 0.08)
+    box-shadow var(--pickit-shadow)
 
   else
-    background $calendarBackground
-    box-shadow 1px 0 0 $calendarBorderColor,
-      -1px 0 0 $calendarBorderColor,
-      0 1px 0 $calendarBorderColor,
-      0 -1px 0 $calendarBorderColor,
-      0 3px 13px alpha(black, 0.08)
+    background var(--pickit-bg)
+    box-shadow 1px 0 0 var(--pickit-border),
+      -1px 0 0 var(--pickit-border),
+      0 1px 0 var(--pickit-border),
+      0 -1px 0 var(--pickit-border),
+      var(--pickit-shadow)
 
 
   &.open, &.inline
@@ -137,23 +169,17 @@
     &:before, &:after
       bottom 100%
     &:before
-      border-bottom-color $calendarBorderColor
+      border-bottom-color var(--pickit-border)
     &:after
-      if $noCalendarBorder is defined
-        border-bottom-color $monthBackground
-      else
-        border-bottom-color $calendarBackground
+      border-bottom-color var(--pickit-month-bg)
 
   &.arrowBottom
     &:before, &:after
       top 100%
     &:before
-      border-top-color $calendarBorderColor
+      border-top-color var(--pickit-border)
     &:after
-      if $noCalendarBorder is defined
-        border-top-color $monthBackground
-      else
-        border-top-color $calendarBackground
+      border-top-color var(--pickit-month-bg)
 
   &:focus
     outline 0
@@ -168,9 +194,9 @@
   .flatpickr-month
     if $noCalendarBorder is defined
       border-radius 5px 5px 0 0
-    background $monthBackground
-    color $monthForeground
-    fill $monthForeground
+    background var(--pickit-month-bg)
+    color var(--pickit-month-text)
+    fill var(--pickit-month-text)
     height $monthNavHeight
     line-height 1
     text-align center
@@ -188,8 +214,8 @@
     height $monthNavHeight
     padding 10px
     z-index 3
-    color $monthForeground
-    fill $monthForeground
+    color var(--pickit-month-text)
+    fill var(--pickit-month-text)
 
     &.flatpickr-disabled
       display none
@@ -217,13 +243,9 @@
       */
 
     &:hover
-      color $todayColor
+      color var(--pickit-arrow-hover)
       svg
-        if $arrow_hover_color is defined
-          fill $arrow_hover_color
-
-        else
-          fill $todayColor
+        fill var(--pickit-arrow-hover)
 
     svg
       width 14px
@@ -259,14 +281,14 @@
     line-height 50%
     opacity 0.6
     cursor pointer
-    border 1px solid alpha($dayForeground, 0.15)
+    border 1px solid var(--pickit-border)
     box-sizing border-box
 
     &:hover
-      background: alpha($invertedBg, 0.1)
+      background: var(--pickit-day-hover-bg)
 
     &:active
-      background: alpha($invertedBg, 0.2)
+      background: var(--pickit-day-hover-bg)
 
     &:after
       display block
@@ -280,7 +302,7 @@
       &:after
         border-left 4px solid transparent
         border-right 4px solid transparent
-        border-bottom 4px solid alpha($dayForeground, 0.6)
+        border-bottom 4px solid var(--pickit-day-text)
         top 26%
 
     &.arrowDown
@@ -289,17 +311,17 @@
       &:after
         border-left 4px solid transparent
         border-right 4px solid transparent
-        border-top 4px solid alpha($dayForeground, 0.6)
+        border-top 4px solid var(--pickit-day-text)
         top 40%
 
     svg
       width inherit
       height auto
       path
-        fill alpha($monthForeground, 0.5)
+        fill var(--pickit-month-text)
 
   &:hover
-    background: alpha($invertedBg, 0.05)
+    background: var(--pickit-day-hover-bg)
 
     span
       opacity 1
@@ -329,7 +351,7 @@
     padding 0
 
     &:hover
-      background: alpha($invertedBg, 0.05)
+      background: var(--pickit-day-hover-bg)
 
 
   .numInputWrapper
@@ -338,10 +360,10 @@
     display inline-block
 
     span.arrowUp:after
-      border-bottom-color $monthForeground
+      border-bottom-color var(--pickit-month-text)
 
     span.arrowDown:after
-      border-top-color $monthForeground
+      border-top-color var(--pickit-month-text)
 
   input.cur-year
     background transparent
@@ -368,12 +390,12 @@
 
     &[disabled], &[disabled]:hover
       font-size 100%
-      color alpha($monthForeground, 0.5)
+      color var(--pickit-day-disabled)
       background transparent
       pointer-events none
 
   .flatpickr-monthDropdown-months
-    background: $monthBackground
+    background: var(--pickit-month-bg)
     border: none
     border-radius: 0
     color: inherit
@@ -399,10 +421,10 @@
       outline-offset: 2px !important
 
     &:hover
-      background: alpha($invertedBg, 0.05)
+      background: var(--pickit-day-hover-bg)
 
     .flatpickr-monthDropdown-month
-      background-color: $monthBackground
+      background-color: var(--pickit-month-bg)
       outline: none
       padding: 0
 
@@ -423,7 +445,7 @@
     padding: 2px 8px
 
 .flatpickr-weekdays
-  background $weekdaysBackground
+  background var(--pickit-weekdays-bg)
   text-align center
   overflow hidden
   width 100%
@@ -441,8 +463,8 @@ span.flatpickr-weekday,
 abbr.flatpickr-weekday
   cursor default
   font-size 90%
-  background $monthBackground
-  color $weekdaysForeground
+  background var(--pickit-month-bg)
+  color var(--pickit-weekdays-text)
   line-height 1
   margin 0
   text-align center
@@ -468,8 +490,8 @@ abbr.flatpickr-weekday
     outline-offset 2px
 
   if $noCalendarBorder is defined
-    border-left 1px solid $calendarBorderColor
-    border-right 1px solid $calendarBorderColor
+    border-left 1px solid var(--pickit-border)
+    border-right 1px solid var(--pickit-border)
 
 
 .dayContainer
@@ -491,7 +513,7 @@ abbr.flatpickr-weekday
   opacity 1
 
   & + .dayContainer
-    box-shadow: -1px 0 0 $calendarBorderColor;
+    box-shadow: -1px 0 0 var(--pickit-border);
 
 
 .flatpickr-day
@@ -499,7 +521,7 @@ abbr.flatpickr-weekday
   border 1px solid transparent
   border-radius 150px
   box-sizing border-box
-  color $dayForeground
+  color var(--pickit-day-text)
   cursor pointer
 
   font-weight 400
@@ -524,32 +546,24 @@ abbr.flatpickr-weekday
       outline 2px solid #569ff7 !important
       outline-offset 2px
       z-index 3
-      background $dayHoverBackground
-      border-color $dayHoverBackground
+      background var(--pickit-day-hover-bg)
+      border-color var(--pickit-day-hover-bg)
 
 
   &.today
-    border-color $todayColor
+    border-color var(--pickit-today-border)
 
     &:hover, &:focus
-      border-color $todayColor
-      background $todayColor
-      if $today_fg_color is defined
-        color $today_fg_color
-      else
-        color white
+      border-color var(--pickit-today-border)
+      background var(--pickit-today-bg)
+      color var(--pickit-today-text)
 
   &.selected, &.startRange, &.endRange
     &, &.inRange, &:focus, &:hover, &.prevMonthDay, &.nextMonthDay
-      background $selectedDayBackground
+      background var(--pickit-selected-bg)
       box-shadow none
-
-      if $selectedDayForeground is defined
-        color $selectedDayForeground
-      else
-        color white
-
-      border-color $selectedDayBackground
+      color var(--pickit-selected-text)
+      border-color var(--pickit-selected-bg)
 
     &.startRange
       border-radius 50px 0 0 50px
@@ -560,36 +574,32 @@ abbr.flatpickr-weekday
 
     // Avoid adding extra fill because it overflows in multimonth mode
     &.startRange + .endRange:not(:nth-child(7n+1))
-      box-shadow: (-5*$dayMargin) 0 0 $selectedDayBackground
+      box-shadow: (-5*$dayMargin) 0 0 var(--pickit-selected-bg)
 
     &.startRange.endRange
       border-radius 50px
 
   &.inRange
     border-radius 0
-    box-shadow: (-2.5*$dayMargin) 0 0 $dayHoverBackground, (2.5*$dayMargin) 0 0 $dayHoverBackground
+    background var(--pickit-range-bg)
+    box-shadow: (-2.5*$dayMargin) 0 0 var(--pickit-range-bg), (2.5*$dayMargin) 0 0 var(--pickit-range-bg)
 
   &.flatpickr-disabled, &.flatpickr-disabled:hover,
   &.prevMonthDay, &.nextMonthDay,
   &.notAllowed, &.notAllowed.prevMonthDay, &.notAllowed.nextMonthDay
-    color alpha($dayForeground, 0.3)
+    color var(--pickit-day-disabled)
     background transparent
-
-    if $disabled_border_color is defined
-      border-color $disabled_border_color
-
-    else
-      border-color transparent
+    border-color transparent
     cursor default
 
   &.flatpickr-disabled, &.flatpickr-disabled:hover
     cursor not-allowed
-    color alpha($dayForeground, 0.1)
+    color var(--pickit-day-disabled)
 
   &.week.selected
     border-radius 0
-    box-shadow: (-2.5*$dayMargin) 0 0 $selectedDayBackground,
-      (2.5*$dayMargin) 0 0 $selectedDayBackground
+    box-shadow: (-2.5*$dayMargin) 0 0 var(--pickit-selected-bg),
+      (2.5*$dayMargin) 0 0 var(--pickit-selected-bg)
 
   &.hidden
     visibility hidden
@@ -603,9 +613,9 @@ abbr.flatpickr-weekday
   .flatpickr-weeks
     padding 0 12px
     if $noCalendarBorder is defined
-      border-left 1px solid $calendarBorderColor
+      border-left 1px solid var(--pickit-border)
     else
-      box-shadow 1px 0 0 $calendarBorderColor
+      box-shadow 1px 0 0 var(--pickit-border)
 
   .flatpickr-weekday
     float none
@@ -618,7 +628,7 @@ abbr.flatpickr-weekday
       display block
       width 100%
       max-width none
-      color alpha($dayForeground, 0.3)
+      color var(--pickit-day-disabled)
       background transparent
       cursor default
       border none
@@ -631,8 +641,8 @@ abbr.flatpickr-weekday
   overflow: hidden;
 
   if $noCalendarBorder is defined
-    background $calendarBackground
-    border-bottom 1px solid $calendarBorderColor
+    background var(--pickit-bg)
+    border-bottom 1px solid var(--pickit-border)
 
 
 .flatpickr-rContainer
@@ -643,7 +653,7 @@ abbr.flatpickr-weekday
 
 .flatpickr-time
   text-align center
-  outline 2px solid transparent
+  outline 0
   display block
   height 0 // hide initially
   line-height $timeHeight
@@ -651,13 +661,9 @@ abbr.flatpickr-weekday
   box-sizing border-box
   overflow hidden
   display flex
-  
-  &:focus-within
-    outline 2px solid #569ff7
-    outline-offset 2px
 
   if $noCalendarBorder is defined
-    background $calendarBackground
+    background var(--pickit-time-bg)
     border-radius 0 0 5px  5px
 
   &:after
@@ -672,10 +678,10 @@ abbr.flatpickr-weekday
     float left
 
     span.arrowUp:after
-      border-bottom-color $dayForeground
+      border-bottom-color var(--pickit-day-text)
 
     span.arrowDown:after
-      border-top-color $dayForeground
+      border-top-color var(--pickit-day-text)
 
   &.hasSeconds .numInputWrapper
     width 26%
@@ -684,7 +690,7 @@ abbr.flatpickr-weekday
     width 49%
 
   input
-    background transparent
+    background var(--pickit-time-bg)
     box-shadow none
     border 0
     border-radius 0
@@ -693,7 +699,7 @@ abbr.flatpickr-weekday
     padding 6px 0
     height inherit
     line-height 1.8
-    color $dayForeground
+    color var(--pickit-time-text)
     font-size 14px
     position relative
     box-sizing border-box
@@ -709,22 +715,21 @@ abbr.flatpickr-weekday
       font-weight 400
 
     &:focus
-      outline 2px solid #569ff7 !important
-      outline-offset 1px
+      outline 0
       border 0
 
   .flatpickr-time-separator, .flatpickr-am-pm
     height inherit
     float left
     line-height inherit
-    color $dayForeground
+    color var(--pickit-time-text)
     font-weight bold
     width 2%
     user-select none
     align-self center
 
   .flatpickr-am-pm
-    outline 2px solid transparent
+    outline 0
     width 18%
     cursor pointer
     text-align center
@@ -736,7 +741,7 @@ abbr.flatpickr-weekday
 
   input, .flatpickr-am-pm
     &:hover, &:focus
-      background lighten($dayHoverBackground, 3)
+      background var(--pickit-day-hover-bg)
 
 .flatpickr-input[readonly]
   cursor pointer
@@ -805,3 +810,52 @@ abbr.flatpickr-weekday
     &:focus
       outline 2px solid currentColor
       outline-offset 2px
+
+// Base Dark Mode support
+@media (prefers-color-scheme: dark)
+  .flatpickr-calendar
+    --pickit-bg: #2d2d2d
+    --pickit-text: #e8e8e8
+    --pickit-border: #4a4a4a
+    --pickit-shadow: 0 4px 12px rgba(0, 0, 0, 0.6)
+    
+    --pickit-month-bg: #242424
+    --pickit-month-text: #f0f0f0
+    --pickit-arrow-hover: #6b6b6b
+    
+    --pickit-weekdays-bg: #2d2d2d
+    --pickit-weekdays-text: #a0a0a0
+    
+    --pickit-day-text: #d8d8d8
+    --pickit-day-hover-bg: #3a3a3a
+    --pickit-day-disabled: #666666
+    
+    --pickit-today-bg: #404040
+    --pickit-today-text: #ffffff
+    --pickit-today-border: #5a5a5a
+    
+    --pickit-selected-bg: #4a4a4a
+    --pickit-selected-text: #ffffff
+    
+    --pickit-range-bg: #3a3a3a
+    --pickit-range-text: #d0d0d0
+    
+    --pickit-time-bg: #242424
+    --pickit-time-border: #4a4a4a
+    --pickit-time-text: #e8e8e8
+    
+    background var(--pickit-bg) !important
+    border-color var(--pickit-border) !important
+    box-shadow var(--pickit-shadow) !important
+    
+  .flatpickr-months .flatpickr-month
+    background var(--pickit-month-bg) !important
+    color var(--pickit-month-text) !important
+    fill var(--pickit-month-text) !important
+    
+  .flatpickr-weekdays
+    background var(--pickit-weekdays-bg) !important
+    
+  .flatpickr-time
+    background var(--pickit-time-bg) !important
+    border-color var(--pickit-time-border) !important
