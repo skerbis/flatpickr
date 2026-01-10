@@ -1,8 +1,8 @@
 # Pickit
 
-**Pickit** ist eine barrierefreie, leichtgewichtige Picker-Sammlung für Datum, Zeit und Farben mit vollständiger WCAG 2.1 AA Konformität.
+**Pickit** ist ein barrierefreier, leichtgewichtiger Datum & Zeit Picker mit vollständiger WCAG 2.1 AA Konformität.
 
-> 🔄 **Fork von flatpickr** - Dieses Projekt baut auf der hervorragenden Grundlage von [flatpickr](https://github.com/flatpickr/flatpickr) auf und erweitert es um verbesserte Barrierefreiheit-Features sowie neue Picker-Typen. Vielen Dank an das flatpickr-Team für die großartige Arbeit!
+> 🔄 **Fork von flatpickr** - Dieses Projekt baut auf der hervorragenden Grundlage von [flatpickr](https://github.com/flatpickr/flatpickr) auf und erweitert es um verbesserte Barrierefreiheit-Features. Vielen Dank an das flatpickr-Team für die großartige Arbeit!
 
 [![npm version](https://img.shields.io/npm/v/pickit.svg)](https://www.npmjs.com/package/pickit)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
@@ -10,10 +10,9 @@
 ## ✨ Features
 
 - 📅 **Datum & Zeit Picker** mit vollständiger Barrierefreiheit
-- 🎨 **Color Picker** mit HSL/RGB/HEX Support und Tastaturnavigation
 - ♿ **WCAG 2.1 AA konform** mit umfassender ARIA-Unterstützung
 - 📢 **Screen Reader optimiert** mit Live-Regionen und klaren Ansagen
-- ⌨️ **Vollständige Tastaturnavigation** für alle Picker-Typen
+- ⌨️ **Vollständige Tastaturnavigation**
 - 🎯 **Verbesserte Focus-Verwaltung** mit visuellen Indikatoren
 - 🎨 **Reduced Motion Support** für Nutzer mit vestibulären Störungen
 - 🔍 **High Contrast Mode** Unterstützung
@@ -64,17 +63,6 @@ import { German } from "pickit/dist/l10n/de.js";
 pickit("#datepicker", {
   locale: German,
   dateFormat: "d.m.Y"
-});
-```
-
-### Color Picker
-
-```javascript
-import colorpicker from "pickit/colorpicker";
-
-colorpicker("#colorInput", {
-  format: "hex",
-  presetColors: ["#3b82f6", "#10b981", "#f59e0b"]
 });
 ```
 
@@ -461,27 +449,6 @@ pickit("#date", {
 });
 ```
 
-## 🎨 Color Picker
-
-Pickit enthält auch einen modernen, barrierefreien Color Picker.
-
-[📖 Vollständige ColorPicker Dokumentation](src/colorpicker/README.md)
-
-### Schnellstart
-
-```javascript
-import colorpicker from "pickit/colorpicker";
-
-colorpicker("#colorInput", {
-  format: "hex",
-  showAlpha: false,
-  presetColors: ["#3b82f6", "#10b981", "#f59e0b"],
-  onChange: (color) => {
-    console.log("Farbe:", color);
-  }
-});
-```
-
 ## ♿ Barrierefreiheit
 
 Pickit legt großen Wert auf Barrierefreiheit:
@@ -580,5 +547,4 @@ Pickit ist ein Fork von [flatpickr](https://github.com/flatpickr/flatpickr) von 
 - [GitHub Repository](https://github.com/skerbis/pickit)
 - [npm Package](https://www.npmjs.com/package/pickit)
 - [Custom Theme Dokumentation](CUSTOM_THEME.md)
-- [ColorPicker Dokumentation](src/colorpicker/README.md)
 - [Build-Anleitung](BUILD.md)
